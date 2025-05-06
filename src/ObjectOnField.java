@@ -6,7 +6,7 @@ public abstract class ObjectOnField {
     private static final String CELL_NULL_MSG = "Cell mustn't be null";
 
     public ObjectOnField(Cell cell) {
-        this.cell = cell;
+        setCell(cell);
     }
 
     public Cell getCell() {

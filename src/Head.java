@@ -7,6 +7,11 @@ public class Head extends AbstractSegment{
         this.dir = dir;
     }
 
+    public Head(Cell cell, Direction dir, AbstractSegment next) {
+        super(cell, next);
+        this.dir = dir;
+    }
+
     public Direction getDir() {
         return dir;
     }
