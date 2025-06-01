@@ -20,11 +20,19 @@ public class GameModel implements SnakeListener{
     }
 
     public void moveSnakeOn(Direction dir) {
-
+        world.getSnakeController().moveOn(dir);
     }
 
     private void finishGame() {
         isFinished = true;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
 

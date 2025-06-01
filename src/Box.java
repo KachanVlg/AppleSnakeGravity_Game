@@ -9,7 +9,7 @@ public class Box extends MovableObstacle{
 
     @Override
     public boolean tryToMove(GameEntity initiator, Direction direction) {
-        return movementStrategy.moveOn(direction, getWorld(), initiator);
+        return movementStrategy.moveOn(direction, getWorld(), initiator, this);
     }
 
     public void setMovementStrategy(MovementStrategy movementStrategy) {
