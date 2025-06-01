@@ -9,11 +9,11 @@ public class Cell {
     private final Point point;
 
     public Cell(Point point) {
-        this.point = point;
+        this.point = new Point(point);
     }
 
     public Point getPoint() {
-        return point;
+        return new Point(point);
     }
 
     public ObjectOnField getObject() {
