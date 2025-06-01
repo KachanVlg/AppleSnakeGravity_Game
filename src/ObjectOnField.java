@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public abstract class ObjectOnField extends GameEntity{
 
@@ -38,4 +39,6 @@ public abstract class ObjectOnField extends GameEntity{
         setCell(cell);
         return forgottenCell;
     }
+
+    public abstract void draw(Graphics g, int x, int y, int cellSize);
 }

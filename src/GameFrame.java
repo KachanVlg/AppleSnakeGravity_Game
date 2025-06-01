@@ -78,29 +78,19 @@ class GamePanel extends JPanel {
         for (Cell cell : model.getWorld().getField()) {
             Point p = cell.getPoint();
             ObjectOnField obj = cell.getObject();
-            if (obj instanceof Apple) {
-                g.setColor(Color.RED);
-            } else if (obj instanceof Block) {
-                g.setColor(Color.BLACK);
-            } else if (obj instanceof Portal) {
-                g.setColor(Color.MAGENTA);
-            } else if (obj instanceof Segment) {
-                g.setColor(Color.GREEN);
-            } else if (obj instanceof Head) {
-                g.setColor(Color.GRAY);
-            } else if (obj instanceof Box) {
-                g.setColor(Color.ORANGE);
-            } else {
-                g.setColor(Color.WHITE); // Пустые ячейки — белые
-            }
 
             int x = p.x * cellSize;
             int y = (height - 1 - p.y) * cellSize;
 
+            // Пустая ячейка — белый фон
+            g.setColor(Color.WHITE);
             g.fillRect(x, y, cellSize, cellSize);
 
-            // Рисуем координаты
-            String coords =p.x + "," + p.y;
+            if(obj != null) {
+                obj.draw(g, x, y, cellSize);
+            }
+            // Координаты (если нужно оставить)
+            String coords = p.x + "," + p.y;
             g.setColor(Color.BLACK);
             g.setFont(new Font("Arial", Font.PLAIN, 10));
             g.drawString(coords, x + 2, y + 12);

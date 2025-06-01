@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public class Box extends MovableObstacle{
     private MovementStrategy movementStrategy;
@@ -14,5 +15,13 @@ public class Box extends MovableObstacle{
 
     public void setMovementStrategy(MovementStrategy movementStrategy) {
         this.movementStrategy = movementStrategy;
+    }
+
+    @Override
+    public void draw(Graphics g, int x, int y, int cellSize) {
+        g.setColor(Color.ORANGE);
+        g.fillRect(x, y, cellSize, cellSize);
+        g.setColor(Color.BLACK);
+        g.drawRect(x, y, cellSize, cellSize);
     }
 }

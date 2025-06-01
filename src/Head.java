@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Head extends AbstractSegment{
 
     private Direction dir;
@@ -18,5 +20,11 @@ public class Head extends AbstractSegment{
 
     public void resetDir(Direction dir) {
         this.dir = dir;
+    }
+
+    @Override
+    public void draw(Graphics g, int x, int y, int cellSize) {
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(x, y, cellSize, cellSize);
     }
 }

@@ -14,6 +14,10 @@ public class GameModel implements SnakeListener{
         world = new World();
     }
 
+    public boolean hasWon() {
+        return this.hasWon;
+    }
+
     public void start() {
         isStarted = true;
         world.getSnakeController().addListener(this);
