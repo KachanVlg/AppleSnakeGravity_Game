@@ -1,10 +1,10 @@
-public class Portal extends Acceptor{
-    public Portal(Cell cell) {
-        super(cell);
+public class Portal extends StaticObstacle{
+    public Portal(Cell cell, World world) {
+        super(cell, world);
     }
 
     @Override
-    public void accept(SnakeVisitor visitor) {
-        visitor.visit(this);
+    public void interact(Snake initiator) {
+
     }
 }

@@ -31,15 +31,17 @@ public class GameModel implements SnakeListener{
 
     @Override
     public void portalIsEntered() {
+        world.applyGravityAllSingleObjects();
         hasWon = true;
         finishGame();
     }
 
     @Override
     public void fell() {
+        world.applyGravityAllSingleObjects();
         finishGame();
     }
 
     @Override
-    public void movedOn() {}
+    public void movedOn() {world.applyGravityAllSingleObjects();}
 }

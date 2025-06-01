@@ -10,19 +10,21 @@ public class AppleTest extends AcceptorTest{
 
     private Point basePoint;
     private Cell baseCell;
+    private World world;
 
 
     @Before
     public void initTestParams() {
         basePoint = new Point(0,0);
         baseCell = new Cell(basePoint);
+        world = new World();
     }
 
 
     @Override
     @Test
     public void constructorTest() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
 
         assertEquals(baseCell, testApple.getCell());
         assertEquals(testApple, baseCell.getObject());
@@ -31,7 +33,7 @@ public class AppleTest extends AcceptorTest{
     @Override
     @Test
     public void unsetCellTest() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
 
         Cell actForgottenCell = testApple.unsetCell();
 
@@ -43,7 +45,7 @@ public class AppleTest extends AcceptorTest{
     @Override
     @Test
     public void setCellTest() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
 
         testApple.unsetCell();
         testApple.setCell(baseCell);
@@ -55,7 +57,7 @@ public class AppleTest extends AcceptorTest{
     @Override
     @Test
     public void setNullCell() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
 
         testApple.unsetCell();
 
@@ -65,7 +67,7 @@ public class AppleTest extends AcceptorTest{
     @Override
     @Test
     public void setCellWhenAlreadyInstalled() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
 
         assertThrows(RuntimeException.class, () -> testApple.setCell(baseCell));
     }
@@ -73,7 +75,7 @@ public class AppleTest extends AcceptorTest{
     @Override
     @Test
     public void resetCell() {
-        Apple testApple = new Apple(baseCell);
+        Apple testApple = new Apple(baseCell, world);
         Cell newCell = new Cell(new Point(1,1));
 
         Cell forgottenCell = testApple.resetCell(newCell);

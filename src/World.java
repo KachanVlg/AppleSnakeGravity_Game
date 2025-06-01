@@ -2,6 +2,7 @@ import javax.sound.sampled.Port;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public class World {
     private SnakeController snake;
     private  static final Direction GRAVITY_DIR = Direction.DOWN;
     private static final Level level;
+    private final List<ObjectOnField> singleGravityObjects = new ArrayList<>();
 
     public int getWidth() {
         return WIDTH;
@@ -61,18 +63,18 @@ public class World {
         //Размещаем блоки
         List<Point> blocksPoints = level.getBlocksPoints();
         List<Cell> blocksCells = blocksPoints.stream().map(this::getCellBy).collect(Collectors.toCollection(ArrayList::new));
-        blocksCells.forEach(Block::new);
+        blocksCells.forEach(cell -> new Block(cell, this));
 
 
         //Размещаем яблоко
         Point applePoint = level.getApplePoint();
         Cell appleCell = getCellBy(applePoint);
-        new Apple(appleCell);
+        new Apple(appleCell, this);
 
         //Размещаем портал
         Point portalPoint = level.getPortalPoint();
         Cell portalCell = getCellBy(portalPoint);
-        new Portal(portalCell);
+        new Portal(portalCell, this);
     }
 
     public boolean applyGravity(List< ? extends ObjectOnField> item) {
@@ -104,6 +106,16 @@ public class World {
             hasFallen = neighbours.size() != checkSize;
         }
         return !hasFallen;
+    }
+
+    public void applyGravityAllSingleObjects() {
+        if(singleGravityObjects.isEmpty()) {return;}
+        ySort(singleGravityObjects).forEach(object -> object.setFell(applyGravity(List.of(object))));
+    }
+
+    private List<ObjectOnField> ySort(List<ObjectOnField> objects) {
+        objects.sort(Comparator.comparingInt(obj -> -obj.getCell().getPoint().y));
+        return objects;
     }
 
     private void singleGravityShiftItem(List<? extends ObjectOnField> item) {

@@ -5,13 +5,13 @@ public abstract class AbstractSegment extends ObjectOnField{
     private static final String NEXT_NULL_MSG = "Next segment mustn't be null";
 
 
-    public AbstractSegment(Cell cell, AbstractSegment next) {
-        super(cell);
+    public AbstractSegment(Cell cell, AbstractSegment next, World world) {
+        super(cell, world);
         this.next = next;
     }
 
-    public AbstractSegment(Cell cell) {
-        super(cell);
+    public AbstractSegment(Cell cell, World world) {
+        super(cell, world);
     }
 
 

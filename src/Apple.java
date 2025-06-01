@@ -1,14 +1,11 @@
-public class Apple extends Acceptor{
-    public Apple(Cell cell) {
-        super(cell);
+public class Apple extends StaticObstacle{
+
+    public Apple(Cell cell, World world) {
+        super(cell, world);
     }
 
     @Override
-    public void accept(SnakeVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    public void eat() {
+    public void interact(Snake initiator) {
 
     }
 }

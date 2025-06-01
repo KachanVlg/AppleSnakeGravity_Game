@@ -1,10 +1,6 @@
-public class Block extends Acceptor{
-    public Block(Cell cell) {
-        super(cell);
-    }
+public class Block extends ObjectOnField{
 
-    @Override
-    public void accept(SnakeVisitor visitor) {
-        visitor.visit(this);
+    public Block(Cell cell, World world) {
+        super(cell, world);
     }
 }
