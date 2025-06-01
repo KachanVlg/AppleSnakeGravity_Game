@@ -68,11 +68,17 @@ public class Snake extends GameEntity implements SnakeController {
         }
     }
 
+    public void setEnteredPortal() {
+        fireEnteredPortal();
+    }
 
 
-    private void grow(Cell cell) {
+
+    public void grow(Cell cell) {
         AbstractSegment oldTail = tail;
-        tail = new Segment(cell, getWorld());
+        Cell growthCell = oldTail.getCell();
+        head.moveTo(cell);
+        tail = new Segment(growthCell, getWorld());
         oldTail.setNext(tail);
     }
 

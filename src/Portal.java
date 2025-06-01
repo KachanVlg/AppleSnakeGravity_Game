@@ -5,6 +5,6 @@ public class Portal extends StaticObstacle{
 
     @Override
     public void interact(Snake initiator) {
-
+        initiator.setEnteredPortal();
     }
 }
