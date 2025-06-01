@@ -115,7 +115,10 @@ public class World {
 
     public void applyGravityAllSingleObjects() {
         if(singleGravityObjects.isEmpty()) {return;}
-        ySort(singleGravityObjects).forEach(object -> object.setFell(applyGravity(new ArrayList<>(List.of(object)))));
+        ySort(singleGravityObjects).forEach(object -> {
+            object.setFell(!applyGravity(new ArrayList<>(List.of(object))));
+            if(object.isFell()) singleGravityObjects.remove(object);
+        });
     }
 
     private List<? extends ObjectOnField> ySort(List<? extends ObjectOnField> objects) {

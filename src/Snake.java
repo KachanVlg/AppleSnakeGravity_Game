@@ -86,6 +86,10 @@ public class Snake extends GameEntity implements SnakeController {
         segments.addLast(tail);
     }
 
+    public int getWeight() {
+        return segments.size();
+    }
+
     private void fireMovedOn() {
         listeners.stream().forEach(listener -> listener.movedOn());
     }

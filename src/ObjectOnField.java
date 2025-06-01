@@ -18,6 +18,14 @@ public abstract class ObjectOnField extends GameEntity{
 
     public void setFell(boolean isFell) {
         this.isFell = isFell;
+
+        if(isFell == true) {
+            unsetCell();
+        }
+    }
+
+    public boolean isFell() {
+        return isFell;
     }
 
     public void setCell(Cell cell) {

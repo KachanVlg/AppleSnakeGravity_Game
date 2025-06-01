@@ -1,6 +1,8 @@
 import java.awt.*;
 
 public class Box extends MovableObstacle{
+
+
     private MovementStrategy movementStrategy;
 
     public Box(MovementStrategy movementStrategy, Cell cell, World world) {

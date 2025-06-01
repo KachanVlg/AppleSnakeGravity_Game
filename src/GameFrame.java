@@ -7,8 +7,9 @@ import java.util.TimerTask;
 public class GameFrame extends JFrame {
     private GameModel gameModel;
     private GamePanel gamePanel;
-    private static final int CELL_SIZE = 20;
+    private static final int CELL_SIZE = 40;
     private static final int REFRESH_RATE_MS = 150;
+    private boolean gameOver = false;
 
     public GameFrame() {
         setTitle("Snake Game");
@@ -28,6 +29,7 @@ public class GameFrame extends JFrame {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                if (gameOver) return;
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP -> gameModel.moveSnakeOn(Direction.UP);
                     case KeyEvent.VK_DOWN -> gameModel.moveSnakeOn(Direction.DOWN);
@@ -45,8 +47,14 @@ public class GameFrame extends JFrame {
                 if (!gameModel.isFinished()) {
                     gamePanel.repaint();
                 } else {
+                    gameOver = true;
                     cancel();
-                    JOptionPane.showMessageDialog(null, "Игра окончена!", "Конец", JOptionPane.INFORMATION_MESSAGE);
+                    String message = gameModel.hasWon()
+                            ? "Вы победили!"
+                            : "Игра окончена! Вы проиграли.";
+                    SwingUtilities.invokeLater(() ->
+                            JOptionPane.showMessageDialog(null, message, "Конец", JOptionPane.INFORMATION_MESSAGE)
+                    );
                 }
             }
         }, 0, REFRESH_RATE_MS);
@@ -83,17 +91,17 @@ class GamePanel extends JPanel {
             int y = (height - 1 - p.y) * cellSize;
 
             // Пустая ячейка — белый фон
-            g.setColor(Color.WHITE);
+            g.setColor(new Color(173, 216, 230));
             g.fillRect(x, y, cellSize, cellSize);
 
             if(obj != null) {
                 obj.draw(g, x, y, cellSize);
             }
-            // Координаты (если нужно оставить)
-            String coords = p.x + "," + p.y;
-            g.setColor(Color.BLACK);
-            g.setFont(new Font("Arial", Font.PLAIN, 10));
-            g.drawString(coords, x + 2, y + 12);
+//            // Координаты (если нужно оставить)
+//            String coords = p.x + "," + p.y;
+//            g.setColor(Color.BLACK);
+//            g.setFont(new Font("Arial", Font.PLAIN, 10));
+//            g.drawString(coords, x + 2, y + 12);
         }
     }
 }
