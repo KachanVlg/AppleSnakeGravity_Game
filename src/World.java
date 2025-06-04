@@ -1,4 +1,6 @@
-import javax.sound.sampled.Port;
+import utils.Direction;
+import utils.Level;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class World {
 
     static {
         try {
-            level = Level.loadFromJson("src/level.json");
+            level = Level.loadFromJson("src/utils/level.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

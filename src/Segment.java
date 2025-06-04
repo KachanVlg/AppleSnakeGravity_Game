@@ -7,7 +7,7 @@ public class Segment extends AbstractSegment{
 
     static {
         try {
-            segmentImage = new ImageIcon(Apple.class.getResource("/Segment.png")).getImage();
+            segmentImage = new ImageIcon(Apple.class.getResource("/ui/images/snake/Segment.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки Segment.png: " + e.getMessage());
         }

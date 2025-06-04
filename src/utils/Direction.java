@@ -1,3 +1,5 @@
+package utils;
+
 public enum Direction {
 
     UP(0,1),

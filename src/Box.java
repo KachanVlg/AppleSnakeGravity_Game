@@ -1,3 +1,5 @@
+import utils.Direction;
+
 import java.awt.*;
 
 public class Box extends MovableObstacle{

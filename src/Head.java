@@ -1,3 +1,5 @@
+import utils.Direction;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,28 +12,28 @@ public class Head extends AbstractSegment{
 
     static {
         try {
-            upHeadImage = new ImageIcon(Apple.class.getResource("/UpHead.png")).getImage();
+            upHeadImage = new ImageIcon(Apple.class.getResource("/ui/images/snake/UpHead.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки apple.png: " + e.getMessage());
         }
     }
     static {
         try {
-            downHeadImage = new ImageIcon(Apple.class.getResource("/DownHead.png")).getImage();
+            downHeadImage = new ImageIcon(Apple.class.getResource("/ui/images/snake/DownHead.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки apple.png: " + e.getMessage());
         }
     }
     static {
         try {
-            leftHeadImage = new ImageIcon(Apple.class.getResource("/LeftHead.png")).getImage();
+            leftHeadImage = new ImageIcon(Apple.class.getResource("/ui/images/snake/LeftHead.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки apple.png: " + e.getMessage());
         }
     }
     static {
         try {
-            rightHeadImage = new ImageIcon(Apple.class.getResource("/RightHead.png")).getImage();
+            rightHeadImage = new ImageIcon(Apple.class.getResource("/ui/images/snake/RightHead.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки apple.png: " + e.getMessage());
         }
@@ -63,7 +65,7 @@ public class Head extends AbstractSegment{
 
 
         if (getDir() == Direction.UP) {
-            g.drawImage(upHeadImage, x, y, cellSize, cellSize, null);
+            g.drawImage(upHeadImage, x, y   , cellSize, cellSize, null);
         } else if (getDir() == Direction.DOWN) {
             g.drawImage(downHeadImage, x, y, cellSize, cellSize, null);
         } else if (getDir() == Direction.LEFT) {

@@ -7,7 +7,7 @@ public class Portal extends StaticObstacle{
 
     static {
         try {
-            portalImage = new ImageIcon(Apple.class.getResource("/Portal.png")).getImage();
+            portalImage = new ImageIcon(Apple.class.getResource("/ui/images/Portal.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки Portal.png: " + e.getMessage());
         }

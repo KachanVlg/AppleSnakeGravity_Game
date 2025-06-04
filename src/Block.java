@@ -7,7 +7,7 @@ public class Block extends ObjectOnField{
 
     static {
         try {
-            blockImage = new ImageIcon(Block.class.getResource("/Block.png")).getImage();
+            blockImage = new ImageIcon(Block.class.getResource("/ui/images/Block.png")).getImage();
             // Или так, если файл в корне:
             // blockImage = new ImageIcon("block.png").getImage();
         } catch (Exception e) {

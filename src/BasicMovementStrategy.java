@@ -1,3 +1,4 @@
+import utils.Direction;
 
 public class BasicMovementStrategy implements MovementStrategy{
     @Override

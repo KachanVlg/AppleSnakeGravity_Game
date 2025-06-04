@@ -1,3 +1,5 @@
+import utils.Direction;
+
 import java.time.Instant;
 
 public class TimeLimitedMovementStrategy implements MovementStrategy {

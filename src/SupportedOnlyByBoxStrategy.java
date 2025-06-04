@@ -1,3 +1,5 @@
+import utils.Direction;
+
 public class SupportedOnlyByBoxStrategy implements MovementStrategy {
     @Override
     public boolean moveOn(Direction direction, World world, GameEntity initiator, ObjectOnField ownObject) {

@@ -1,4 +1,7 @@
-public class GameModel implements SnakeListener{
+import events.SnakeListener;
+import utils.Direction;
+
+public class GameModel implements SnakeListener {
 
 
     private boolean isFinished;
