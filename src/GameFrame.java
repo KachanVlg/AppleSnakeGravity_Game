@@ -1,3 +1,5 @@
+import utils.Direction;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

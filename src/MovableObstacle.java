@@ -1,3 +1,5 @@
+import utils.Direction;
+
 public abstract class MovableObstacle extends ObjectOnField{
     public MovableObstacle(Cell cell, World world) {
         super(cell, world);

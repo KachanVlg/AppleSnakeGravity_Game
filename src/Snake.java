@@ -1,5 +1,8 @@
 
 
+import events.SnakeListener;
+import utils.Direction;
+
 import java.util.*;
 
 public class Snake extends GameEntity implements SnakeController {
@@ -72,6 +75,7 @@ public class Snake extends GameEntity implements SnakeController {
         if(isOk) {
             fireMovedOn();
         } else {
+            segments.forEach(segment -> segment.setFell(true));
             fireFell();
         }
     }

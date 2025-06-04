@@ -1,3 +1,5 @@
+package events;
+
 public interface SnakeListener {
 
     void portalIsEntered();

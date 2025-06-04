@@ -1,5 +1,7 @@
+import events.SnakeListener;
 import org.junit.Assert;
 import org.junit.Test;
+import utils.Direction;
 
 
 import java.awt.*;

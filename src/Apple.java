@@ -6,7 +6,7 @@ public class Apple extends StaticObstacle{
 
     static {
         try {
-            appleImage = new ImageIcon(Apple.class.getResource("/Apple.png")).getImage();
+            appleImage = new ImageIcon(Apple.class.getResource("/ui/images/Apple.png")).getImage();
         } catch (Exception e) {
             System.err.println("Ошибка загрузки apple.png: " + e.getMessage());
         }
