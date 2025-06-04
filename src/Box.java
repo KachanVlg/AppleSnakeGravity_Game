@@ -8,6 +8,7 @@ public class Box extends MovableObstacle{
     public Box(MovementStrategy movementStrategy, Cell cell, World world) {
         super(cell, world);
         this.movementStrategy = movementStrategy;
+        world.addGravityObject(this);
     }
 
     @Override
@@ -25,5 +26,9 @@ public class Box extends MovableObstacle{
         g.fillRect(x, y, cellSize, cellSize);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, cellSize, cellSize);
+    }
+
+    public MovementStrategy getMovementStrategy() {
+        return movementStrategy;
     }
 }

@@ -22,12 +22,6 @@ public class Apple extends StaticObstacle{
         initiator.grow(oldCell);
     }
 
-//    @Override
-//    public void draw(Graphics g, int x, int y, int cellSize) {
-//        g.setColor(Color.RED);
-//        g.fillOval(x, y, cellSize, cellSize);
-//    }
-
     @Override
     public void draw(Graphics g, int x, int y, int cellSize) {
         if (appleImage != null) {

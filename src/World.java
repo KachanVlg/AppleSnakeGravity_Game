@@ -14,7 +14,7 @@ public class World {
     private List<Cell> field;
     private SnakeController snake;
     private  static final Direction GRAVITY_DIR = Direction.DOWN;
-    private static final Level level;
+    private static Level level;
     private List<ObjectOnField> singleGravityObjects = new ArrayList<>();
 
     public int getWidth() {
@@ -50,8 +50,20 @@ public class World {
         return snake;
     }
 
-    public World() {
+    public void addGravityObject(ObjectOnField obj) {
+        singleGravityObjects.add(obj);
+    }
 
+    public World(String pathToLevel) {
+        try {
+            level = Level.loadFromJson(pathToLevel);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        init();
+    }
+
+    private void init() {
         cellsInit();
 
         //Создаем змею
@@ -76,10 +88,13 @@ public class World {
         Cell portalCell = getCellBy(portalPoint);
         new Portal(portalCell, this);
 
-        Point boxPoint = new Point(7,7);
+        Point boxPoint = new Point(7,3);
         Cell boxCell = getCellBy(boxPoint);
         Box box = new Box(new BasicMovementStrategy(), boxCell, this);
-        singleGravityObjects.add(box);
+    }
+
+    public World() {
+        init();
     }
 
     public boolean applyGravity(List< ? extends ObjectOnField> item) {
@@ -115,10 +130,12 @@ public class World {
 
     public void applyGravityAllSingleObjects() {
         if(singleGravityObjects.isEmpty()) {return;}
-        ySort(singleGravityObjects).forEach(object -> {
+
+        ySort(singleGravityObjects);
+        singleGravityObjects.forEach(object -> {
             object.setFell(!applyGravity(new ArrayList<>(List.of(object))));
-            if(object.isFell()) singleGravityObjects.remove(object);
         });
+        singleGravityObjects.removeIf(object -> object.isFell());
     }
 
     private List<? extends ObjectOnField> ySort(List<? extends ObjectOnField> objects) {
@@ -145,7 +162,7 @@ public class World {
         return cells.stream().map(oldCell -> getNeighbour(oldCell, dir)).filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private Cell getCellBy(Point point) {
+    public Cell getCellBy(Point point) {
         return field.stream().filter(cell -> cell.getPoint().equals(point)).findFirst().orElse(null);
     }
 

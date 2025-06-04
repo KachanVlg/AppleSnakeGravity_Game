@@ -72,10 +72,10 @@ class GamePanel extends JPanel {
     public GamePanel(GameModel model, int cellSize) {
         this.model = model;
         this.cellSize = cellSize;
-        int width = 30; // Можно подстроить под уровень
+        int width = 30;
         int height = 30;
         setPreferredSize(new Dimension(width * cellSize, height * cellSize));
-        setBackground(Color.CYAN);
+        setBackground(new Color(173, 216, 230));
     }
 
     @Override
@@ -90,14 +90,13 @@ class GamePanel extends JPanel {
             int x = p.x * cellSize;
             int y = (height - 1 - p.y) * cellSize;
 
-            // Пустая ячейка — белый фон
+
             g.setColor(new Color(173, 216, 230));
             g.fillRect(x, y, cellSize, cellSize);
 
             if(obj != null) {
                 obj.draw(g, x, y, cellSize);
             }
-//            // Координаты (если нужно оставить)
 //            String coords = p.x + "," + p.y;
 //            g.setColor(Color.BLACK);
 //            g.setFont(new Font("Arial", Font.PLAIN, 10));

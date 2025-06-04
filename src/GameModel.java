@@ -55,5 +55,6 @@ public class GameModel implements SnakeListener{
     }
 
     @Override
-    public void movedOn() {world.applyGravityAllSingleObjects();}
+    public void movedOn() {
+        world.applyGravityAllSingleObjects();}
 }

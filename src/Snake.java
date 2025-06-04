@@ -1,7 +1,6 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+
+import java.util.*;
 
 public class Snake extends GameEntity implements SnakeController {
     private final List<AbstractSegment> segments = new ArrayList<>();
@@ -33,6 +32,13 @@ public class Snake extends GameEntity implements SnakeController {
         segments.addFirst(head);
     }
 
+    public Head getHead() {
+        return head;
+    }
+
+    public List<AbstractSegment> getSegments() {
+        return segments;
+    }
     public void moveOn(Direction dir) {
         planDir = dir;
         Direction headDir = head.getDir();
@@ -108,4 +114,8 @@ public class Snake extends GameEntity implements SnakeController {
         listeners.add(listener);
     }
 
+
+    public Collection<SnakeListener> getListeners() {
+        return listeners;
+    }
 }
