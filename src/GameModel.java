@@ -14,17 +14,29 @@ public class GameModel implements SnakeListener{
         world = new World();
     }
 
+    public boolean hasWon() {
+        return this.hasWon;
+    }
+
     public void start() {
         isStarted = true;
         world.getSnakeController().addListener(this);
     }
 
     public void moveSnakeOn(Direction dir) {
-
+        world.getSnakeController().moveOn(dir);
     }
 
     private void finishGame() {
         isFinished = true;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
 
@@ -43,5 +55,6 @@ public class GameModel implements SnakeListener{
     }
 
     @Override
-    public void movedOn() {world.applyGravityAllSingleObjects();}
+    public void movedOn() {
+        world.applyGravityAllSingleObjects();}
 }

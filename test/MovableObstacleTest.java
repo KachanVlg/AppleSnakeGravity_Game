@@ -1,24 +1,19 @@
-import org.junit.Test;
-
-import java.awt.*;
-
-public abstract class ObjectOnFieldTest extends GameEntityTest{
-
-    @Test
+public abstract class MovableObstacleTest extends ObjectOnFieldTest{
+    @Override
     public abstract void constructorTest();
 
-    @Test
+    @Override
     public abstract void unsetCellTest();
 
-    @Test
+    @Override
     public abstract void setCellTest();
 
-    @Test
+    @Override
     public abstract void setNullCell();
 
-    @Test
+    @Override
     public abstract void setCellWhenAlreadyInstalled();
 
-    @Test
+    @Override
     public abstract void resetCell();
 }

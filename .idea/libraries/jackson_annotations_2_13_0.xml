@@ -5,6 +5,10 @@
       <root url="jar://$PROJECT_DIR$/jackson-core-2.13.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/jackson-databind-2.13.0.jar!/" />
       <root url="file://$PROJECT_DIR$" />
+      <root url="jar://D:/downloads/byte-buddy-1.9.9.jar!/" />
+      <root url="jar://D:/downloads/mockito-core-5.18.0.jar!/" />
+      <root url="jar://D:/downloads/objenesis-3.4.jar!/" />
+      <root url="jar://D:/downloads/byte-buddy-agent-1.17.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

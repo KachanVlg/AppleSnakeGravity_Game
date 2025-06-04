@@ -24,8 +24,8 @@ public abstract class AbstractSegment extends ObjectOnField{
     }
 
     public void setNext(AbstractSegment next) {
-        if (hasNext()) throw new RuntimeException(NEXT_EXISTS_MSG);
         if(next == null) throw new IllegalArgumentException(NEXT_NULL_MSG);
+        if (hasNext()) throw new RuntimeException(NEXT_EXISTS_MSG);
         this.next = next;
     }
 

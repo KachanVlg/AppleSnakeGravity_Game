@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 public class World {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
+    private static final int WIDTH = 20;
+    private static final int HEIGHT = 20;
     private List<Cell> field;
     private SnakeController snake;
     private  static final Direction GRAVITY_DIR = Direction.DOWN;
-    private static final Level level;
-    private final List<ObjectOnField> singleGravityObjects = new ArrayList<>();
+    private static Level level;
+    private List<ObjectOnField> singleGravityObjects = new ArrayList<>();
 
     public int getWidth() {
         return WIDTH;
@@ -50,8 +50,20 @@ public class World {
         return snake;
     }
 
-    public World() {
+    public void addGravityObject(ObjectOnField obj) {
+        singleGravityObjects.add(obj);
+    }
 
+    public World(String pathToLevel) {
+        try {
+            level = Level.loadFromJson(pathToLevel);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        init();
+    }
+
+    private void init() {
         cellsInit();
 
         //Создаем змею
@@ -75,6 +87,14 @@ public class World {
         Point portalPoint = level.getPortalPoint();
         Cell portalCell = getCellBy(portalPoint);
         new Portal(portalCell, this);
+
+        Point boxPoint = new Point(7,3);
+        Cell boxCell = getCellBy(boxPoint);
+        Box box = new Box(new BasicMovementStrategy(), boxCell, this);
+    }
+
+    public World() {
+        init();
     }
 
     public boolean applyGravity(List< ? extends ObjectOnField> item) {
@@ -101,24 +121,30 @@ public class World {
 
             if(!hasLanded) {
                 singleGravityShiftItem(item);
+                neighbours = getNeighbours(neighbours, GRAVITY_DIR);
+                hasFallen = neighbours.size() != checkSize;
             }
-            neighbours = getNeighbours(neighbours, GRAVITY_DIR);
-            hasFallen = neighbours.size() != checkSize;
         }
         return !hasFallen;
     }
 
     public void applyGravityAllSingleObjects() {
         if(singleGravityObjects.isEmpty()) {return;}
-        ySort(singleGravityObjects).forEach(object -> object.setFell(applyGravity(List.of(object))));
+
+        ySort(singleGravityObjects);
+        singleGravityObjects.forEach(object -> {
+            object.setFell(!applyGravity(new ArrayList<>(List.of(object))));
+        });
+        singleGravityObjects.removeIf(object -> object.isFell());
     }
 
-    private List<ObjectOnField> ySort(List<ObjectOnField> objects) {
-        objects.sort(Comparator.comparingInt(obj -> -obj.getCell().getPoint().y));
+    private List<? extends ObjectOnField> ySort(List<? extends ObjectOnField> objects) {
+        objects.sort(Comparator.comparingInt(obj -> obj.getCell().getPoint().y));
         return objects;
     }
 
     private void singleGravityShiftItem(List<? extends ObjectOnField> item) {
+        ySort(item);
         item.forEach(obj -> {
             Point current = obj.getCell().getPoint();
             Point newPoint = new Point(
@@ -136,7 +162,7 @@ public class World {
         return cells.stream().map(oldCell -> getNeighbour(oldCell, dir)).filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private Cell getCellBy(Point point) {
+    public Cell getCellBy(Point point) {
         return field.stream().filter(cell -> cell.getPoint().equals(point)).findFirst().orElse(null);
     }
 

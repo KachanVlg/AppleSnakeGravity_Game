@@ -1,14 +1,13 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.IntStream;
+
+
+import java.util.*;
 
 public class Snake extends GameEntity implements SnakeController {
     private final List<AbstractSegment> segments = new ArrayList<>();
     private final Head head;
     private AbstractSegment tail;
     private static final String FELL_MSG = "Snake fell";
+    private Direction planDir;
 
     public Snake(List<Cell> segmentCells, World world, Direction headDir) {
 
@@ -20,7 +19,7 @@ public class Snake extends GameEntity implements SnakeController {
         segmentCells.removeLast();
 
         //Инициализируем тело
-        int size = segmentCells.size()-2;
+        int size = segmentCells.size()-1;
         for(int i = 0; i < size; i++) {
             AbstractSegment curNext = segments.getFirst();
             AbstractSegment curSegment = new Segment(segmentCells.getLast(), curNext, world);
@@ -33,7 +32,15 @@ public class Snake extends GameEntity implements SnakeController {
         segments.addFirst(head);
     }
 
+    public Head getHead() {
+        return head;
+    }
+
+    public List<AbstractSegment> getSegments() {
+        return segments;
+    }
     public void moveOn(Direction dir) {
+        planDir = dir;
         Direction headDir = head.getDir();
         Cell headCell = head.getCell();
         Cell targetCell = getWorld().getNeighbour(headCell, dir);
@@ -51,6 +58,7 @@ public class Snake extends GameEntity implements SnakeController {
 
         if((objectInDirectionOfMove instanceof MovableObstacle obstacle) && obstacle.tryToMove(this, dir) || objectInDirectionOfMove == null) {
             head.moveTo(targetCell);
+            head.resetDir(planDir);
             fall();
         }
     }
@@ -68,12 +76,24 @@ public class Snake extends GameEntity implements SnakeController {
         }
     }
 
+    public void enterPortal() {
+        fireEnteredPortal();
+    }
 
 
-    private void grow(Cell cell) {
+
+    public void grow(Cell cell) {
         AbstractSegment oldTail = tail;
-        tail = new Segment(cell, getWorld());
+        Cell growthCell = oldTail.getCell();
+        head.moveTo(cell);
+        head.resetDir(planDir);
+        tail = new Segment(growthCell, getWorld());
         oldTail.setNext(tail);
+        segments.addLast(tail);
+    }
+
+    public int getWeight() {
+        return segments.size();
     }
 
     private void fireMovedOn() {
@@ -94,4 +114,8 @@ public class Snake extends GameEntity implements SnakeController {
         listeners.add(listener);
     }
 
+
+    public Collection<SnakeListener> getListeners() {
+        return listeners;
+    }
 }

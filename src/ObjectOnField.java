@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public abstract class ObjectOnField extends GameEntity{
 
@@ -17,6 +18,14 @@ public abstract class ObjectOnField extends GameEntity{
 
     public void setFell(boolean isFell) {
         this.isFell = isFell;
+
+        if(isFell == true) {
+            unsetCell();
+        }
+    }
+
+    public boolean isFell() {
+        return isFell;
     }
 
     public void setCell(Cell cell) {
@@ -38,4 +47,6 @@ public abstract class ObjectOnField extends GameEntity{
         setCell(cell);
         return forgottenCell;
     }
+
+    public abstract void draw(Graphics g, int x, int y, int cellSize);
 }
