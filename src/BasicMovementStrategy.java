@@ -1,5 +1,7 @@
 import utils.Direction;
 
+import java.awt.*;
+
 public class BasicMovementStrategy implements MovementStrategy{
     @Override
     public boolean moveOn(Direction direction, World world, GameEntity initiator, ObjectOnField ownObject) {
@@ -10,5 +12,10 @@ public class BasicMovementStrategy implements MovementStrategy{
         ownObject.unsetCell();
         ownObject.setCell(targetCell);
         return true;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.orange;
     }
 }

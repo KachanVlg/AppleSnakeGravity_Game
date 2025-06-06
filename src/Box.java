@@ -24,7 +24,7 @@ public class Box extends MovableObstacle{
 
     @Override
     public void draw(Graphics g, int x, int y, int cellSize) {
-        g.setColor(Color.ORANGE);
+        g.setColor(movementStrategy.getColor());
         g.fillRect(x, y, cellSize, cellSize);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, cellSize, cellSize);

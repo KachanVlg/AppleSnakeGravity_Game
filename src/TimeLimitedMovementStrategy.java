@@ -1,5 +1,6 @@
 import utils.Direction;
 
+import java.awt.*;
 import java.time.Instant;
 
 public class TimeLimitedMovementStrategy implements MovementStrategy {
@@ -34,5 +35,10 @@ public class TimeLimitedMovementStrategy implements MovementStrategy {
     public long getTimeLeftMillis() {
         long elapsed = Instant.now().toEpochMilli() - startTime.toEpochMilli();
         return Math.max(0, allowedMillis - elapsed);
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.BLACK;
     }
 }

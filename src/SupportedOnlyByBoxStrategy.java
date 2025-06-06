@@ -1,5 +1,7 @@
 import utils.Direction;
 
+import java.awt.*;
+
 public class SupportedOnlyByBoxStrategy implements MovementStrategy {
     @Override
     public boolean moveOn(Direction direction, World world, GameEntity initiator, ObjectOnField ownObject) {
@@ -16,5 +18,10 @@ public class SupportedOnlyByBoxStrategy implements MovementStrategy {
         }
 
         return false;
+    }
+
+    @Override
+    public Color getColor() {
+        return Color.PINK;
     }
 }
