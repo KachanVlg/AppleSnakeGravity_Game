@@ -93,6 +93,14 @@ public class World {
         Point boxPoint = new Point(7,3);
         Cell boxCell = getCellBy(boxPoint);
         Box box = new Box(new BasicMovementStrategy(), boxCell, this);
+
+        boxPoint = new Point(11,3);
+        boxCell = getCellBy(boxPoint);
+        box = new Box(new OnlyUnderBoxMovementStrategy(), boxCell, this);
+
+        boxPoint = new Point(10,6);
+        boxCell = getCellBy(boxPoint);
+        box = new Box(new BasicMovementStrategy(), boxCell, this);
     }
 
     public World() {
