@@ -9,7 +9,7 @@ public class Apple extends StaticObstacle {
     @Override
     public void interact(Snake initiator) {
         Cell oldCell = unsetCell();
-        initiator.grow(oldCell);
+        initiator.grow(oldCell, this);
     }
 
 }

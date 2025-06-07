@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public class GamePanel extends JPanel implements GameListener {
     private boolean isAnimating = false;
     private final static int CELL_SIZE = 40;
     private final int fieldSize = 800;
+    private final Map<ObjectOnField, GameComponent> componentMap = new HashMap<>();
 
     private static final Map<Integer, Direction> KEY_TO_DIRECTION = Map.of(
             KeyEvent.VK_UP, Direction.UP,
@@ -82,36 +84,43 @@ public class GamePanel extends JPanel implements GameListener {
         List<Block> blocks = gameModel.getWorld().getObjectsOfType(Block.class);
         for (Block block : blocks) {
             BlockView blockView = new BlockView(block);
+            componentMap.put(block, blockView);
             addStaticComponent(blockView);
             blockView.repaint();
         }
 
         Portal portal = gameModel.getWorld().getObjectsOfType(Portal.class).getFirst();
         PortalView portalView = new PortalView(portal);
+        componentMap.put(portal, portalView);
         addStaticComponent(portalView);
         portalView.repaint();
 
 
         Head head = gameModel.getWorld().getObjectsOfType(Head.class).getFirst();
         HeadView headView = new HeadView(head);
+        componentMap.put(head, headView);
         addMovingComponent(headView);
         headView.refresh();
 
         List<Segment> segments = gameModel.getWorld().getObjectsOfType(Segment.class);
         for (Segment segment : segments) {
             SegmentView segmentView = new SegmentView(segment);
+            componentMap.put(segment, segmentView);
             addMovingComponent(segmentView);
             segmentView.refresh();
         }
 
         Apple apple = gameModel.getWorld().getObjectsOfType(Apple.class).getFirst();
-        addStaticComponent(new AppleView(apple));
+        AppleView appleView = new AppleView(apple);
+        addStaticComponent(appleView);
+        componentMap.put(apple, appleView);
 
 
 
         List<Box> boxes = gameModel.getWorld().getObjectsOfType(Box.class);
         for (Box box : boxes) {
             BoxView boxView = new BoxView(box);
+            componentMap.put(box, boxView);
             addMovingComponent(boxView);
             boxView.refresh(); // чтобы сразу позиция обновилась
         }
@@ -126,19 +135,23 @@ public class GamePanel extends JPanel implements GameListener {
             anyAnimating |= comp.isAnimating();
         }
 
-        isAnimating = anyAnimating ? true : false;
+        isAnimating = anyAnimating;
 
         if (!isAnimating) {
-            movingComponents.removeIf(comp -> {
-                if (comp.isToDelete()) {
-                    remove(comp);
-                    return true;
-                }
-                return false;
-            });
+            removeDeletedComponents();
         }
         revalidate();
         repaint();
+    }
+
+    private void removeDeletedComponents() {
+        movingComponents.removeIf(comp -> {
+            if (comp.isToDelete()) {
+                remove(comp);
+                return true;
+            }
+            return false;
+        });
     }
 
     public void stopGameLoop() {
@@ -181,20 +194,13 @@ public class GamePanel extends JPanel implements GameListener {
     }
 
     @Override
-    public void eatApple(Segment segment, Cell cell) {
+    public void eatApple(Segment segment, Apple apple) {
 
-        Point applePoint = cell.getPoint(); // логическая координата
-        Point pixelPoint = new Point(applePoint.x * CELL_SIZE, fieldSize - 1 - applePoint.y * CELL_SIZE);
-
-        JComponent appleComponent = staticComponents.stream()
-                .filter(c -> c.getX() == pixelPoint.x && c.getY() == pixelPoint.y)
-                .findFirst()
-                .orElse(null);
-
-        if (appleComponent != null) {
-            remove(appleComponent);
-            staticComponents.remove(appleComponent);
-        }
+        GameComponent appleComponent = componentMap.get(apple);
+        componentMap.remove(apple);
+        remove(appleComponent);
+        staticComponents.remove(appleComponent);
+       
 
         SegmentView segmentView = new SegmentView(segment);
         addMovingComponent(segmentView);

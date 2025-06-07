@@ -54,9 +54,10 @@ public class WorldTest {
             }
 
             @Override
-            public void eatApple(Segment segment, Cell cell) {
+            public void eatApple(Segment segment, Apple apple) {
 
             }
+
 
             @Override
             public void gravityApplied() {

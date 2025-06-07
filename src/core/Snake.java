@@ -92,7 +92,7 @@ public class Snake extends GameEntity implements SnakeController {
 
 
 
-    public void grow(Cell cell) {
+    public void grow(Cell cell, Apple apple) {
         AbstractSegment oldTail = tail;
         Cell growthCell = oldTail.getCell();
         head.moveTo(cell);
@@ -100,7 +100,7 @@ public class Snake extends GameEntity implements SnakeController {
         tail = new Segment(growthCell, getWorld());
         oldTail.setNext(tail);
         segments.addLast(tail);
-        fireEatApple((Segment)tail, cell);
+        fireEatApple((Segment)tail, apple);
     }
 
     public int getWeight() {
@@ -119,8 +119,8 @@ public class Snake extends GameEntity implements SnakeController {
         listeners.stream().forEach(listener -> listener.fell());
     }
 
-    private void fireEatApple(Segment segment, Cell cell) {
-        listeners.stream().forEach(listeners -> listeners.eatApple(segment, cell));
+    private void fireEatApple(Segment segment, Apple apple) {
+        listeners.stream().forEach(listeners -> listeners.eatApple(segment, apple));
     }
 
     private Set<SnakeListener> listeners = new HashSet<>();
