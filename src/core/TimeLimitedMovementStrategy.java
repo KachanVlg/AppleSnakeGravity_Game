@@ -2,24 +2,25 @@ import utils.Direction;
 
 import java.time.Instant;
 
-public class TimeLimitedMovementStrategy implements MovementStrategy {
+public class TimeLimitedMovementStrategy extends MovementStrategy {
     private final long allowedMillis;
     private final Instant startTime;
 
-    public TimeLimitedMovementStrategy(long allowedSeconds) {
+    public TimeLimitedMovementStrategy(long allowedSeconds, World world) {
+        super(world);
         this.allowedMillis = allowedSeconds * 1000;
         this.startTime = Instant.now();
     }
 
     @Override
-    public boolean moveOn(Direction direction, World world, GameEntity initiator, ObjectOnField ownObject) {
+    public boolean moveOn(Direction direction, GameEntity initiator) {
         if (isExpired()) return false;
 
-        Cell current = ownObject.getCell();
-        Cell target = world.getNeighbour(current, direction);
+        Cell current = getOwner().getCell();
+        Cell target = getWorld().getNeighbour(current, direction);
 
         if (target != null && target.getObject() == null) {
-            ownObject.resetCell(target);
+            getOwner().resetCell(target);
             return true;
         }
 

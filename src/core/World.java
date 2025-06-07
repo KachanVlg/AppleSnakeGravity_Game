@@ -92,7 +92,7 @@ public class World {
 
         Point boxPoint = new Point(7,3);
         Cell boxCell = getCellBy(boxPoint);
-        Box box = new Box(new BasicMovementStrategy(), boxCell, this);
+        Box box = new Box(new BasicMovementStrategy(this), boxCell, this);
     }
 
     public World() {
@@ -168,10 +168,4 @@ public class World {
         return field.stream().filter(cell -> cell.getPoint().equals(point)).findFirst().orElse(null);
     }
 
-
-
-
-
-
-    
 }
