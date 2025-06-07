@@ -31,7 +31,7 @@ public abstract class AbstractSegmentView extends MovingGameComponent{
             targetY = fieldSize - newPoint.y * size - 1;
         }
 
-        // Если уже на месте — не анимируем
+
         if ((int) currentX == targetX && (int) currentY == targetY) {
             return;
         }

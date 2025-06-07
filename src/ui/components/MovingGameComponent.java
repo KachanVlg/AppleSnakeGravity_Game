@@ -8,7 +8,6 @@ import java.awt.*;
 
 public abstract class MovingGameComponent extends GameComponent {
 
-    protected GamePanel gamePanel;
     protected boolean toDelete;
     protected Point targetPoint;
     protected boolean animating = false;
