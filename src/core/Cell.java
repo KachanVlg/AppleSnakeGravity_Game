@@ -1,9 +1,11 @@
+package core;
+
 import java.awt.*;
 import java.util.Objects;
 
 public class Cell {
 
-    private static final String CELL_OCCUPIED_MSG = "Cell is occupied";
+    private static final String CELL_OCCUPIED_MSG = "core.Cell is occupied";
     private static final String OBJ_NULL_MSG = "Object mustn't be null";
     private ObjectOnField object;
     private final Point point;

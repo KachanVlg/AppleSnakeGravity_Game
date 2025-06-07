@@ -1,3 +1,7 @@
+import core.Block;
+import core.Cell;
+import core.Snake;
+import core.World;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Direction;

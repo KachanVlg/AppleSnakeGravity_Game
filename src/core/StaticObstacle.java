@@ -1,4 +1,6 @@
-public abstract class StaticObstacle extends ObjectOnField{
+package core;
+
+public abstract class StaticObstacle extends ObjectOnField {
     public StaticObstacle(Cell cell, World world) {
         super(cell, world);
     }

@@ -1,3 +1,7 @@
+import core.Cell;
+import core.ObjectOnField;
+import core.Snake;
+import core.World;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.Direction;

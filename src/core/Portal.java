@@ -1,7 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+package core;
 
-public class Portal extends StaticObstacle{
+public class Portal extends StaticObstacle {
 
     public Portal(Cell cell, World world) {
         super(cell, world);
@@ -9,7 +8,7 @@ public class Portal extends StaticObstacle{
 
     @Override
     public void interact(Snake initiator) {
-        initiator.enterPortal();
+        initiator.enterPortal(this.getCell());
     }
 
 }

@@ -1,10 +1,10 @@
+import core.GameModel;
+import core.Snake;
+import core.SnakeController;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 
 public class GameModelTest {
     @Test
@@ -14,7 +14,7 @@ public class GameModelTest {
 
         // Проверяем, что после старта змея подписалась на события
         SnakeController snake = model.getWorld().getSnakeController();
-        assertFalse("Snake должен содержать хотя бы одного слушателя", ((Snake) snake).getListeners().isEmpty());
+        assertFalse("core.Snake должен содержать хотя бы одного слушателя", ((Snake) snake).getListeners().isEmpty());
     }
 
     @Test

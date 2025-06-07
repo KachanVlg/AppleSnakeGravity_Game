@@ -1,4 +1,4 @@
-// 1. Создаем enum или класс, хранящий UI-цвета для стратегий
+package ui.util;// 1. Создаем enum или класс, хранящий UI-цвета для стратегий
 import core.BasicMovementStrategy;
 import core.MovementStrategy;
 import core.SupportedOnlyByBoxStrategy;

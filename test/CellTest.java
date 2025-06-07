@@ -1,3 +1,4 @@
+import core.Cell;
 import org.junit.Test;
 
 import java.awt.*;

@@ -1,7 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+package core;
 
-public class Apple extends StaticObstacle{
+public class Apple extends StaticObstacle {
 
     public Apple(Cell cell, World world) {
         super(cell, world);

@@ -1,3 +1,5 @@
+package core;
+
 import utils.Direction;
 
 public class SupportedOnlyByBoxStrategy extends MovementStrategy {

@@ -1,3 +1,5 @@
+package core;
+
 public abstract class GameEntity {
 
     private final World world;

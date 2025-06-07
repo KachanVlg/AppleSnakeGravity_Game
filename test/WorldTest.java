@@ -1,3 +1,4 @@
+import core.*;
 import events.SnakeListener;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,8 +33,8 @@ public class WorldTest {
         assertEquals(new Point(1, 1), head.getCell().getPoint());
 
         // Проверка наличия яблока и портала
-        assertNotNull(testWorld.getCellBy(new Point(5, 5)).getObject()); // Apple
-        assertNotNull(testWorld.getCellBy(new Point(6, 6)).getObject()); // Portal
+        assertNotNull(testWorld.getCellBy(new Point(5, 5)).getObject()); // core.Apple
+        assertNotNull(testWorld.getCellBy(new Point(6, 6)).getObject()); // core.Portal
     }
 
     @Test

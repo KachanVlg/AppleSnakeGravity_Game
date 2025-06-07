@@ -1,3 +1,7 @@
+import core.AbstractSegment;
+import core.Cell;
+import core.Segment;
+import core.World;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+package core;
 
-public class Segment extends AbstractSegment{
+public class Segment extends AbstractSegment {
 
 
     public Segment(Cell cell, World world) {

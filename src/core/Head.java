@@ -1,9 +1,8 @@
+package core;
+
 import utils.Direction;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class Head extends AbstractSegment{
+public class Head extends AbstractSegment {
 
     private Direction dir;
 

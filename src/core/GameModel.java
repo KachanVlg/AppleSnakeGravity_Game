@@ -1,5 +1,12 @@
+package core;
+
+import events.GameListener;
 import events.SnakeListener;
 import utils.Direction;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GameModel implements SnakeListener {
 
@@ -27,7 +34,9 @@ public class GameModel implements SnakeListener {
     }
 
     public void moveSnakeOn(Direction dir) {
-        world.getSnakeController().moveOn(dir);
+        if(!isFinished) {
+            world.getSnakeController().moveOn(dir);
+        }
     }
 
     private void finishGame() {
@@ -49,15 +58,60 @@ public class GameModel implements SnakeListener {
         world.applyGravityAllSingleObjects();
         hasWon = true;
         finishGame();
+        fireEnteredPortal();
     }
 
     @Override
     public void fell() {
-        world.applyGravityAllSingleObjects();
         finishGame();
+        fireFell();
     }
 
     @Override
     public void movedOn() {
-        world.applyGravityAllSingleObjects();}
+        fireMovedOn();
+    }
+
+    @Override
+    public void eatApple(Segment segment) {
+        fireEatApple(segment);
+    }
+
+    @Override
+    public void gravityApplied() {
+        world.applyGravityAllSingleObjects();
+        fireGravityApplied();
+    }
+
+
+    private void fireMovedOn() {
+        listeners.stream().forEach(listener -> listener.movedOn());
+    }
+
+    private void fireEnteredPortal() {
+        listeners.stream().forEach(listener -> listener.portalIsEntered());
+    }
+
+    private void fireFell() {
+        listeners.stream().forEach(listener -> listener.fell());
+    }
+
+    private Set<GameListener> listeners = new HashSet<>();
+
+    public void addListener(GameListener listener) {
+        listeners.add(listener);
+    }
+
+    private void fireEatApple(Segment segment) {
+        listeners.stream().forEach(listeners -> listeners.eatApple(segment));
+    }
+
+    private void fireGravityApplied() {
+        listeners.stream().forEach(listener -> listener.gravityApplied());
+    }
+
+
+    public Collection<GameListener> getListeners() {
+        return listeners;
+    }
 }

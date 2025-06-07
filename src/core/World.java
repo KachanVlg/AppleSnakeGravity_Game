@@ -1,3 +1,5 @@
+package core;
+
 import utils.Direction;
 import utils.Level;
 
@@ -18,6 +20,39 @@ public class World {
     private  static final Direction GRAVITY_DIR = Direction.DOWN;
     private static Level level;
     private List<ObjectOnField> singleGravityObjects = new ArrayList<>();
+    private Apple apple;
+    private List<Block> blocks = new ArrayList<>();
+    private Portal portal;
+    private List<Segment> segments = new ArrayList<>();
+    private Head head;
+    private List<Box> boxes = new ArrayList<>();
+
+
+    //-------------------------------------------------
+    public List<Block> getBlocks() {
+        return blocks;
+    }
+
+    public List<Box> getBoxes() {
+        return boxes;
+    }
+
+    public Portal getPortal() {
+        return portal;
+    }
+
+    public List<Segment> getSegments() {
+        return segments;
+    }
+
+    public Apple getApple() {
+        return apple;
+    }
+
+    public Head getHead() {
+        return head;
+    }
+    //-------------------------------------------------
 
     public int getWidth() {
         return WIDTH;
@@ -74,25 +109,53 @@ public class World {
         Direction snakeDirection = level.getSnakeDirection();
         snake = new Snake(snakeCells, this, snakeDirection);
 
+        head = snake.getHead();
+
+        segments = snake.getSegments().stream()
+                .filter(s -> s instanceof Segment)
+                .map(s -> (Segment) s)
+                .collect(Collectors.toList());
+
+        segments.remove(head);
+
         //Размещаем блоки
         List<Point> blocksPoints = level.getBlocksPoints();
         List<Cell> blocksCells = blocksPoints.stream().map(this::getCellBy).collect(Collectors.toCollection(ArrayList::new));
         blocksCells.forEach(cell -> new Block(cell, this));
 
+        for (Cell cell : blocksCells) {
+            blocks.add((Block)cell.getObject());
+        }
 
         //Размещаем яблоко
         Point applePoint = level.getApplePoint();
         Cell appleCell = getCellBy(applePoint);
-        new Apple(appleCell, this);
+        apple = new Apple(appleCell, this);
+
+
 
         //Размещаем портал
         Point portalPoint = level.getPortalPoint();
         Cell portalCell = getCellBy(portalPoint);
-        new Portal(portalCell, this);
+        portal = new Portal(portalCell, this);
 
-        Point boxPoint = new Point(7,3);
+        Point boxPoint = new Point(7,6);
         Cell boxCell = getCellBy(boxPoint);
         Box box = new Box(new BasicMovementStrategy(this), boxCell, this);
+
+        boxes.add(box);
+
+        boxPoint = new Point(11,7);
+        boxCell = getCellBy(boxPoint);
+        box = new Box(new SupportedOnlyByBoxStrategy(this), boxCell, this);
+
+        boxes.add(box);
+
+        boxPoint = new Point(11,6);
+        boxCell = getCellBy(boxPoint);
+        box = new Box(new BasicMovementStrategy(this), boxCell, this);
+
+        boxes.add(box);
     }
 
     public World() {

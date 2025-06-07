@@ -1,15 +1,16 @@
-
+package core;
 
 import events.SnakeListener;
 import utils.Direction;
 
 import java.util.*;
+import javax.swing.Timer;
 
 public class Snake extends GameEntity implements SnakeController {
     private final List<AbstractSegment> segments = new ArrayList<>();
     private final Head head;
     private AbstractSegment tail;
-    private static final String FELL_MSG = "Snake fell";
+    private static final String FELL_MSG = "core.Snake fell";
     private Direction planDir;
 
     public Snake(List<Cell> segmentCells, World world, Direction headDir) {
@@ -48,8 +49,7 @@ public class Snake extends GameEntity implements SnakeController {
         Cell headCell = head.getCell();
         Cell targetCell = getWorld().getNeighbour(headCell, dir);
 
-        if((headDir.opposite() == dir) || containsSegmentWith(targetCell)) {
-            fireMovedOn();
+        if((headDir.opposite() == dir) || containsSegmentWith(targetCell) || targetCell == null) {
             return;
         }
 
@@ -62,7 +62,11 @@ public class Snake extends GameEntity implements SnakeController {
         if((objectInDirectionOfMove instanceof MovableObstacle obstacle) && obstacle.tryToMove(this, dir) || objectInDirectionOfMove == null) {
             head.moveTo(targetCell);
             head.resetDir(planDir);
-            fall();
+            fireMovedOn();
+
+            Timer timer = new Timer(200, e -> fall());
+            timer.setRepeats(false);
+            timer.start();
         }
     }
 
@@ -72,15 +76,16 @@ public class Snake extends GameEntity implements SnakeController {
 
     private void fall() {
         boolean isOk = getWorld().applyGravity(segments);
-        if(isOk) {
-            fireMovedOn();
-        } else {
+        fireGravityApplied();
+        if(!isOk) {
             segments.forEach(segment -> segment.setFell(true));
             fireFell();
         }
     }
 
-    public void enterPortal() {
+    public void enterPortal(Cell portalCell) {
+        segments.forEach(segment -> segment.setEnteredPortal(portalCell));
+        head.resetDir(planDir);
         fireEnteredPortal();
     }
 
@@ -94,6 +99,7 @@ public class Snake extends GameEntity implements SnakeController {
         tail = new Segment(growthCell, getWorld());
         oldTail.setNext(tail);
         segments.addLast(tail);
+        fireEatApple((Segment)tail);
     }
 
     public int getWeight() {
@@ -112,6 +118,10 @@ public class Snake extends GameEntity implements SnakeController {
         listeners.stream().forEach(listener -> listener.fell());
     }
 
+    private void fireEatApple(Segment segment) {
+        listeners.stream().forEach(listeners -> listeners.eatApple(segment));
+    }
+
     private Set<SnakeListener> listeners = new HashSet<>();
 
     public void addListener(SnakeListener listener) {
@@ -121,5 +131,9 @@ public class Snake extends GameEntity implements SnakeController {
 
     public Collection<SnakeListener> getListeners() {
         return listeners;
+    }
+
+    public void fireGravityApplied() {
+        listeners.stream().forEach(listener -> listener.gravityApplied());
     }
 }

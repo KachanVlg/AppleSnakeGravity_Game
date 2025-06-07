@@ -1,10 +1,10 @@
-import java.awt.*;
+package core;
 
-public abstract class ObjectOnField extends GameEntity{
+public abstract class ObjectOnField extends GameEntity {
 
     private Cell cell;
     private static final String OBJ_INSTALLED_IN_CELL_MSG = "Object already installed in cell";
-    private static final String CELL_NULL_MSG = "Cell mustn't be null";
+    private static final String CELL_NULL_MSG = "core.Cell mustn't be null";
     private boolean isFell = false;
 
     public ObjectOnField(Cell cell, World world) {

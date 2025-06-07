@@ -1,3 +1,5 @@
+package core;
+
 import utils.Direction;
 
 public abstract class  MovementStrategy {

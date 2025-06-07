@@ -1,3 +1,4 @@
+import core.*;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Direction;
@@ -111,7 +112,7 @@ public class AppleTest extends StaticObstacleTest {
         assertEquals("Змея должна увеличиться на 1 сегмент", initialWeight + 1, snake.getWeight());
 
 
-        assertTrue("Клетку должен занимать объект типа Head", baseCell.getObject() instanceof Head);
+        assertTrue("Клетку должен занимать объект типа core.Head", baseCell.getObject() instanceof Head);
     }
 
 

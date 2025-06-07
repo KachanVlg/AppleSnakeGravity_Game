@@ -1,6 +1,8 @@
+package core;
+
 import utils.Direction;
 
-public class BasicMovementStrategy extends MovementStrategy{
+public class BasicMovementStrategy extends MovementStrategy {
 
     public BasicMovementStrategy(World world) {
         super(world);
