@@ -51,10 +51,10 @@ public class GamePanel extends JPanel implements GameListener {
         setFocusable(true);
         requestFocusInWindow();
 
-        setLayout(null); // абсолютное позиционирование
-        setPreferredSize(new Dimension(800, 800)); // подстраивай под размер игрового поля
+        setLayout(null);
+        setPreferredSize(new Dimension(800, 800));
 
-        // Запускаем игровой цикл с частотой ~25 кадров в секунду
+
         gameTimer = new Timer(40, e -> gameLoop());
         gameModel.start();
         initComponents();
@@ -122,7 +122,7 @@ public class GamePanel extends JPanel implements GameListener {
             BoxView boxView = new BoxView(box);
             componentMap.put(box, boxView);
             addMovingComponent(boxView);
-            boxView.refresh(); // чтобы сразу позиция обновилась
+            boxView.refresh();
         }
     }
 
@@ -200,7 +200,7 @@ public class GamePanel extends JPanel implements GameListener {
         componentMap.remove(apple);
         remove(appleComponent);
         staticComponents.remove(appleComponent);
-       
+
 
         SegmentView segmentView = new SegmentView(segment);
         addMovingComponent(segmentView);
