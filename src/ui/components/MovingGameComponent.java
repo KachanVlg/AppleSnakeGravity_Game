@@ -18,6 +18,7 @@ public abstract class MovingGameComponent extends GameComponent {
 
     public MovingGameComponent(ObjectOnField objectOnField) {
         super(objectOnField);
+        updatePosition();
     }
 
     public boolean isToDelete() {
@@ -74,5 +75,13 @@ public abstract class MovingGameComponent extends GameComponent {
 
     public boolean isAnimating() {
         return animating;
+    }
+
+    @Override
+    protected void updatePosition() {
+        Point point = objectOnField.getCell().getPoint();
+        currentX = point.x * size;
+        currentY = fieldSize - point.y * size - 1;
+        setLocation((int) currentX, (int) currentY);
     }
 }

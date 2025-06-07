@@ -16,12 +16,6 @@ public class HeadView extends AbstractSegmentView {
         super(head);
         this.head = head;
 
-        Point point = head.getCell().getPoint();
-        currentX = point.x * size;
-        currentY = fieldSize - point.y * size - 1;
-        setLocation((int) currentX, (int) currentY);
-
-
         headUp = new ImageIcon("src/ui/images/snake/HeadUp.png").getImage();
         headDown = new ImageIcon("src/ui/images/snake/HeadDown.png").getImage();
         headLeft = new ImageIcon("src/ui/images/snake/HeadLeft.png").getImage();
