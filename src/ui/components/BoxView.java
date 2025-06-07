@@ -3,29 +3,18 @@ package ui.components;
 import core.Box;
 import ui.util.StrategyUIMapper;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class BoxView extends GameComponent {
+public class BoxView extends MovingGameComponent {
     private final Box box;
     private Color color;
-
-    private final int size = 40;
-    private final int fieldSize = 800;
-
-    private Point targetPoint;
-    private boolean animating = false;
-
-    private double currentX;
-    private double currentY;
-
-    private final double speed = 9.0;
 
     public Box getBox() {
         return box;
     }
 
     public BoxView(Box box) {
+        super(box);
         this.box = box;
         updateColor();
         setSize(size, size);
@@ -41,11 +30,6 @@ public class BoxView extends GameComponent {
 
     private void updateColor() {
         this.color = StrategyUIMapper.getColorForStrategy(box.getMovementStrategy());
-    }
-
-    public void updatePosition() {
-        Point point = box.getCell().getPoint();
-        setLocation((int) (point.getX() * size), (int) (fieldSize - point.getY() * size - 1));
     }
 
     @Override
@@ -73,37 +57,7 @@ public class BoxView extends GameComponent {
     }
 
     @Override
-    public void animate() {
-        if (!animating || targetPoint == null) return;
-
-        double dx = targetPoint.x - currentX;
-        double dy = targetPoint.y - currentY;
-
-        double dist = Math.hypot(dx, dy);
-
-        if (dist < speed) {
-            currentX = targetPoint.x;
-            currentY = targetPoint.y;
-            animating = false;
-        } else {
-            currentX += (dx / dist) * speed;
-            currentY += (dy / dist) * speed;
-            animating = true;
-        }
-
-
-        setLocation((int) currentX, (int) currentY);
-        repaint();
-
-        if(!animating && box.isFell()) {
-            toDelete = true;
-        }
-
-    }
-
-    @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.setColor(color);
         g.fillRect(0, 0, size, size);
         g.setColor(Color.BLACK); // Чёрная рамка

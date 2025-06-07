@@ -5,7 +5,7 @@ import utils.Direction;
 import java.time.Instant;
 
 public class TimeLimitedMovementStrategy extends MovementStrategy {
-    private final long allowedMillis = 100000;
+    private final long allowedMillis = 5000;
     private final Instant startTime;
 
     public TimeLimitedMovementStrategy(World world) {

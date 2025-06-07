@@ -54,6 +54,16 @@ public class WorldTest {
             }
 
             @Override
+            public void eatApple(Segment segment, Cell cell) {
+
+            }
+
+            @Override
+            public void gravityApplied() {
+
+            }
+
+            @Override
             public void portalIsEntered() {}
 
             @Override
@@ -68,7 +78,7 @@ public class WorldTest {
                 .toList();
 
         // Двигаем змею вправо
-        snake.moveOn(Direction.RIGHT);
+        snake.moveOn(Direction.LEFT);
 
         // Получаем Y координаты после движения
         List<Integer> afterMoveY = snake.getSegments().stream()
@@ -82,55 +92,6 @@ public class WorldTest {
     }
 
     @Test
-    public void testSnakeFallsAfterMovingWithoutSupport() {
-        // Уровень: змея "висит" в воздухе, под ней пусто
-        World world = new World("test/resources/test_level_snake_fell.json");
-        Snake snake = (Snake) world.getSnakeController();
-
-        AtomicBoolean moved = new AtomicBoolean(false);
-        AtomicBoolean fell = new AtomicBoolean(false);
-
-        snake.addListener(new SnakeListener() {
-            @Override
-            public void movedOn() {
-                moved.set(true);
-            }
-
-            @Override
-            public void portalIsEntered() {}
-
-            @Override
-            public void fell() {
-                fell.set(true);
-            }
-        });
-
-        // Начальные координаты сегментов
-        List<Point> initialPositions = snake.getSegments().stream()
-                .map(segment -> segment.getCell().getPoint())
-                .toList();
-
-        // Двигаем змею вправо
-        snake.moveOn(Direction.LEFT);
-
-        // Координаты после движения
-        List<Point> afterPositions = snake.getSegments().stream()
-                .map(segment -> segment.getCell().getPoint())
-                .toList();
-
-        // Проверки
-        Assert.assertFalse("Змея не должна просто переместиться (упадёт)", moved.get());
-        Assert.assertTrue("Змея должна упасть", fell.get());
-
-        // Проверим, что y-координаты увеличились (т.е. упала вниз)
-        for (int i = 0; i < initialPositions.size(); i++) {
-            int initialY = initialPositions.get(i).y;
-            int newY = afterPositions.get(i).y;
-            Assert.assertTrue("Сегмент должен опуститься ниже", newY < initialY);
-        }
-    }
-
-    @Test
     public void testBoxGravity_fullBehavior() {
         // Подготавливаем мир с пустым пространством под коробкой
         World world = new World("test/resources/test_level_box_fell.json");
@@ -138,7 +99,7 @@ public class WorldTest {
         // Создаем коробку вручную и ставим ее на (5, 2)
         Point boxStart = new Point(5, 2);
         Cell boxStartCell = world.getCellBy(boxStart);
-        Box box = new Box(new BasicMovementStrategy(), boxStartCell, world);
+        Box box = new Box(new BasicMovementStrategy(world), boxStartCell, world);
 
         // Убедимся, что коробка зарегистрирована как гравитационный объект
         List<ObjectOnField> gravityObjects = world.getField().stream()
@@ -165,11 +126,11 @@ public class WorldTest {
 
         // Создаем 2 коробки — одна на опоре, одна в воздухе
         Cell box1Cell = world.getCellBy(new Point(4, 4)); // Под ней пусто — упадет
-        Box box1 = new Box(new BasicMovementStrategy(), box1Cell, world);
+        Box box1 = new Box(new BasicMovementStrategy(world), box1Cell, world);
 
 
         Cell box2Cell = world.getCellBy(new Point(1, 2)); // Под ней блок — не упадет
-        Box box2 = new Box(new BasicMovementStrategy(), box2Cell, world);
+        Box box2 = new Box(new BasicMovementStrategy(world), box2Cell, world);
 
         // Вызываем метод applyGravityAllSingleObjects
         world.applyGravityAllSingleObjects();

@@ -49,6 +49,6 @@ public class GameWindow extends JFrame {
         add(gamePanel, BorderLayout.CENTER);
         revalidate();
         repaint();
-        gamePanel.requestFocusInWindow(); // важно, чтобы снова принимал клавиши
+        gamePanel.requestFocusInWindow();
     }
 }

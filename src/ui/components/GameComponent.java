@@ -1,19 +1,23 @@
 package ui.components;
 
-import ui.GamePanel;
+import core.ObjectOnField;
 
 import javax.swing.*;
+import java.awt.*;
 
-public abstract class GameComponent extends JComponent {
+public class GameComponent extends JComponent {
+    protected final int size = 40;
+    protected final int fieldSize = 800;
+    protected final ObjectOnField objectOnField;
 
-    private GamePanel gamePanel;
-    protected boolean toDelete;
-
-    public boolean isToDelete() {
-        return toDelete;
+    public GameComponent(ObjectOnField objectOnField) {
+        this.objectOnField = objectOnField;
     }
 
-    public abstract void refresh();
-    public abstract void animate();
-    public abstract boolean isAnimating();
+    protected void updatePosition() {
+        Point point = objectOnField.getCell().getPoint();
+        setLocation(point.x * size, fieldSize - point.y * size - 1);
+    }
+
+
 }

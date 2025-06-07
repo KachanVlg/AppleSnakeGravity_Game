@@ -99,6 +99,11 @@ public class World {
     }
 
     private void initBoxes() {
+
+        if (level.getBoxes() == null) {
+            return;
+        }
+
         for (BoxDto boxDto : level.getBoxes()) {
             MyPoint myPoint = boxDto.getPoint();
             Point awtPoint = myPoint.toAwtPoint();

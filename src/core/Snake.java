@@ -3,7 +3,9 @@ package core;
 import events.SnakeListener;
 import utils.Direction;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.Timer;
 
 public class Snake extends GameEntity implements SnakeController {
@@ -85,7 +87,6 @@ public class Snake extends GameEntity implements SnakeController {
 
     public void enterPortal(Cell portalCell) {
         segments.forEach(segment -> segment.setEnteredPortal(portalCell));
-        head.resetDir(planDir);
         fireEnteredPortal();
     }
 
@@ -99,7 +100,7 @@ public class Snake extends GameEntity implements SnakeController {
         tail = new Segment(growthCell, getWorld());
         oldTail.setNext(tail);
         segments.addLast(tail);
-        fireEatApple((Segment)tail);
+        fireEatApple((Segment)tail, cell);
     }
 
     public int getWeight() {
@@ -118,8 +119,8 @@ public class Snake extends GameEntity implements SnakeController {
         listeners.stream().forEach(listener -> listener.fell());
     }
 
-    private void fireEatApple(Segment segment) {
-        listeners.stream().forEach(listeners -> listeners.eatApple(segment));
+    private void fireEatApple(Segment segment, Cell cell) {
+        listeners.stream().forEach(listeners -> listeners.eatApple(segment, cell));
     }
 
     private Set<SnakeListener> listeners = new HashSet<>();

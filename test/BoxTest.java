@@ -22,7 +22,7 @@ public class BoxTest extends MovableObstacleTest{
         basePoint = new Point(0,0);
         baseCell = new Cell(basePoint);
         world = new World();
-        movementStrategy = new BasicMovementStrategy();
+        movementStrategy = new BasicMovementStrategy(world);
     }
 
 
@@ -106,7 +106,7 @@ public class BoxTest extends MovableObstacleTest{
                 .findFirst()
                 .orElseThrow();
 
-        box = new Box(new BasicMovementStrategy(), boxCellBefore, world);
+        box = new Box(new BasicMovementStrategy(world), boxCellBefore, world);
 
         // Находим целевую ячейку (5,3) — туда должна переместиться коробка
         boxCellAfter = world.getNeighbour(boxCellBefore, Direction.RIGHT);
@@ -145,11 +145,11 @@ public class BoxTest extends MovableObstacleTest{
                 .filter(c -> c.getPoint().equals(new Point(4, 3)))
                 .findFirst()
                 .orElseThrow();
-        baseBox = new Box(new BasicMovementStrategy(), baseCell, world);
+        baseBox = new Box(new BasicMovementStrategy(world), baseCell, world);
 
         // Устанавливаем верхнюю коробку (которую будем двигать) на (4,3)
         Cell topCell = world.getNeighbour(baseCell, Direction.UP);
-        topBox = new Box(new SupportedOnlyByBoxStrategy(), topCell, world);
+        topBox = new Box(new SupportedOnlyByBoxStrategy(world), topCell, world);
 
 
         SnakeController controller = world.getSnakeController();
@@ -173,9 +173,9 @@ public class BoxTest extends MovableObstacleTest{
 
     @Test
     public void setMovementStrategy() {
-        MovementStrategy movementStrategy = new BasicMovementStrategy();
+        MovementStrategy movementStrategy = new BasicMovementStrategy(world);
         Box testBox = new Box(movementStrategy, baseCell, world);
-        MovementStrategy newMovementStrategy = new TimeLimitedMovementStrategy(100);
+        MovementStrategy newMovementStrategy = new TimeLimitedMovementStrategy(world);
         testBox.setMovementStrategy(newMovementStrategy);
 
         assertTrue(testBox.getMovementStrategy() instanceof TimeLimitedMovementStrategy);
@@ -192,11 +192,11 @@ public class BoxTest extends MovableObstacleTest{
 
         // Устанавливаем коробку, которую будет толкать змея, на (4,4)
         Cell pushingCell = world.getCellBy(new Point(4, 4));
-        pushingBox = new Box(new BasicMovementStrategy(), pushingCell, world);
+        pushingBox = new Box(new BasicMovementStrategy(world), pushingCell, world);
 
         // Устанавливаем блокирующую коробку на (5,4) — прямо за толкаемой
         Cell blockingCell = world.getCellBy(new Point(5, 4));
-        blockingBox = new Box(new BasicMovementStrategy(), blockingCell, world);
+        blockingBox = new Box(new BasicMovementStrategy(world), blockingCell, world);
 
         // Проверяем начальные позиции
         assertEquals(new Point(4, 4), pushingBox.getCell().getPoint());
@@ -223,9 +223,9 @@ public class BoxTest extends MovableObstacleTest{
         World world = new World("test/resources/test_level_time_limited.json");
 
         Cell startCell = world.getCellBy(new Point(4, 4));
-        Box box = new Box(new TimeLimitedMovementStrategy(1), startCell, world); // 1 сек
+        Box box = new Box(new TimeLimitedMovementStrategy(world), startCell, world); // 5
 
-        Thread.sleep(1200); // Ждём чуть больше секунды
+        Thread.sleep(6000);
 
         boolean moved = box.tryToMove(null, Direction.RIGHT);
 
@@ -238,7 +238,7 @@ public class BoxTest extends MovableObstacleTest{
         World world = new World("test/resources/test_level_time_limited.json");
 
         Cell startCell = world.getCellBy(new Point(4, 4));
-        Box box = new Box(new TimeLimitedMovementStrategy(5), startCell, world); // 5 сек
+        Box box = new Box(new TimeLimitedMovementStrategy(world), startCell, world); // 5 сек
 
         Cell targetCell = world.getNeighbour(startCell, Direction.RIGHT);
         assertNull(targetCell.getObject());

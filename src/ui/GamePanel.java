@@ -19,10 +19,11 @@ public class GamePanel extends JPanel implements GameListener {
 
     private final GameModel gameModel;
 
-    private final List<GameComponent> movingComponents = new ArrayList<>();
+    private final List<MovingGameComponent> movingComponents = new ArrayList<>();
     private final List<JComponent> staticComponents = new ArrayList<>();
-    private AppleView appleView;
     private boolean isAnimating = false;
+    private final static int CELL_SIZE = 40;
+    private final int fieldSize = 800;
 
     private static final Map<Integer, Direction> KEY_TO_DIRECTION = Map.of(
             KeyEvent.VK_UP, Direction.UP,
@@ -58,7 +59,7 @@ public class GamePanel extends JPanel implements GameListener {
         gameTimer.start();
     }
 
-    public void addMovingComponent(GameComponent comp) {
+    public void addMovingComponent(MovingGameComponent comp) {
         movingComponents.add(comp);
         add(comp);
     }
@@ -86,7 +87,6 @@ public class GamePanel extends JPanel implements GameListener {
         }
 
         Portal portal = gameModel.getWorld().getObjectsOfType(Portal.class).getFirst();
-        //portal
         PortalView portalView = new PortalView(portal);
         addStaticComponent(portalView);
         portalView.repaint();
@@ -105,9 +105,8 @@ public class GamePanel extends JPanel implements GameListener {
         }
 
         Apple apple = gameModel.getWorld().getObjectsOfType(Apple.class).getFirst();
-        appleView = new AppleView(apple);
-        addStaticComponent(appleView);
-        appleView.repaint();
+        addStaticComponent(new AppleView(apple));
+
 
 
         List<Box> boxes = gameModel.getWorld().getObjectsOfType(Box.class);
@@ -121,7 +120,7 @@ public class GamePanel extends JPanel implements GameListener {
     private void gameLoop() {
         boolean anyAnimating = false;
 
-        for (GameComponent comp : movingComponents) {
+        for (MovingGameComponent comp : movingComponents) {
             comp.animate();
             comp.refresh();
             anyAnimating |= comp.isAnimating();
@@ -157,12 +156,9 @@ public class GamePanel extends JPanel implements GameListener {
                 "Вы победили!",
                 JOptionPane.INFORMATION_MESSAGE
         );
-
         JDialog dialog = optionPane.createDialog(this, "Игра завершена");
-
         Point location = getLocationOnScreen();
         dialog.setLocation(location.x + getWidth() / 2 - dialog.getWidth() / 2, location.y + 100); // 100 px от верхнего края окна
-
         dialog.setVisible(true);
         stopGameLoop();
     }
@@ -185,18 +181,25 @@ public class GamePanel extends JPanel implements GameListener {
     }
 
     @Override
-    public void eatApple(Segment segment) {
-        // Удалить яблоко с UI
-        remove(appleView);
-        staticComponents.remove(appleView);
-        appleView = null;
+    public void eatApple(Segment segment, Cell cell) {
 
-        // Добавить новый сегмент
+        Point applePoint = cell.getPoint(); // логическая координата
+        Point pixelPoint = new Point(applePoint.x * CELL_SIZE, fieldSize - 1 - applePoint.y * CELL_SIZE);
+
+        JComponent appleComponent = staticComponents.stream()
+                .filter(c -> c.getX() == pixelPoint.x && c.getY() == pixelPoint.y)
+                .findFirst()
+                .orElse(null);
+
+        if (appleComponent != null) {
+            remove(appleComponent);
+            staticComponents.remove(appleComponent);
+        }
+
         SegmentView segmentView = new SegmentView(segment);
         addMovingComponent(segmentView);
-        segmentView.refresh(); // не забудь обновить позицию
+        segmentView.refresh();
 
-        // Перерисовать
         revalidate();
         repaint();
     }
