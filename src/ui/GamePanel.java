@@ -1,5 +1,6 @@
 package ui;
 
+
 import core.*;
 import core.Box;
 import events.GameListener;
@@ -12,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GamePanel extends JPanel implements GameListener {
 
@@ -21,6 +23,13 @@ public class GamePanel extends JPanel implements GameListener {
     private final List<JComponent> staticComponents = new ArrayList<>();
     private AppleView appleView;
     private boolean isAnimating = false;
+
+    private static final Map<Integer, Direction> KEY_TO_DIRECTION = Map.of(
+            KeyEvent.VK_UP, Direction.UP,
+            KeyEvent.VK_DOWN, Direction.DOWN,
+            KeyEvent.VK_LEFT, Direction.LEFT,
+            KeyEvent.VK_RIGHT, Direction.RIGHT
+    );
 
 
     private final Timer gameTimer;
@@ -56,18 +65,8 @@ public class GamePanel extends JPanel implements GameListener {
 
     private void handleKeyPress(KeyEvent e) {
         if (isAnimating) return;
-        Direction dir = null;
-
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP -> dir = Direction.UP;
-            case KeyEvent.VK_DOWN -> dir = Direction.DOWN;
-            case KeyEvent.VK_LEFT -> dir = Direction.LEFT;
-            case KeyEvent.VK_RIGHT -> dir = Direction.RIGHT;
-        }
-
-        if (dir != null) {
-            gameModel.moveSnakeOn(dir);
-        }
+        Direction dir = KEY_TO_DIRECTION.get(e.getKeyCode());
+        if (dir != null) gameModel.moveSnakeOn(dir);
     }
 
     public void addStaticComponent(JComponent comp) {
@@ -75,79 +74,71 @@ public class GamePanel extends JPanel implements GameListener {
         add(comp);
     }
 
+
+
     public void initComponents() {
-        //blocks
-        for (Block block : gameModel.getWorld().getBlocks()) {
+
+        List<Block> blocks = gameModel.getWorld().getObjectsOfType(Block.class);
+        for (Block block : blocks) {
             BlockView blockView = new BlockView(block);
             addStaticComponent(blockView);
             blockView.repaint();
         }
 
-
+        Portal portal = gameModel.getWorld().getObjectsOfType(Portal.class).getFirst();
         //portal
-        PortalView portalView = new PortalView(gameModel.getWorld().getPortal());
+        PortalView portalView = new PortalView(portal);
         addStaticComponent(portalView);
         portalView.repaint();
 
-        //snake
-        HeadView headView = new HeadView(gameModel.getWorld().getHead());
+
+        Head head = gameModel.getWorld().getObjectsOfType(Head.class).getFirst();
+        HeadView headView = new HeadView(head);
         addMovingComponent(headView);
         headView.refresh();
 
-        for (Segment segment : gameModel.getWorld().getSegments()) {
+        List<Segment> segments = gameModel.getWorld().getObjectsOfType(Segment.class);
+        for (Segment segment : segments) {
             SegmentView segmentView = new SegmentView(segment);
             addMovingComponent(segmentView);
             segmentView.refresh();
         }
 
-        appleView = new AppleView(gameModel.getWorld().getApple());
+        Apple apple = gameModel.getWorld().getObjectsOfType(Apple.class).getFirst();
+        appleView = new AppleView(apple);
         addStaticComponent(appleView);
         appleView.repaint();
 
 
-        //boxes
-        for (Box box : gameModel.getWorld().getBoxes()) {
+        List<Box> boxes = gameModel.getWorld().getObjectsOfType(Box.class);
+        for (Box box : boxes) {
             BoxView boxView = new BoxView(box);
             addMovingComponent(boxView);
             boxView.refresh(); // чтобы сразу позиция обновилась
         }
-
-
-
     }
 
     private void gameLoop() {
-
-
         boolean anyAnimating = false;
 
         for (GameComponent comp : movingComponents) {
             comp.animate();
             comp.refresh();
-
-            if (comp.isAnimating()) {
-                anyAnimating = true;
-            }
+            anyAnimating |= comp.isAnimating();
         }
 
-        if (!anyAnimating) {
-            isAnimating = false; // ✅ разрешаем ввод снова
-        }
+        isAnimating = anyAnimating ? true : false;
 
-        if(!isAnimating) {
-            // Удаляем компоненты, которые помечены на удаление
-            List<GameComponent> toRemove = new ArrayList<>();
-            for (GameComponent comp : movingComponents) {
+        if (!isAnimating) {
+            movingComponents.removeIf(comp -> {
                 if (comp.isToDelete()) {
-                    toRemove.add(comp);
-                    remove(comp); // Удаляем с панели
+                    remove(comp);
+                    return true;
                 }
-            }
-            movingComponents.removeAll(toRemove);
+                return false;
+            });
         }
         revalidate();
-
-
         repaint();
     }
 
@@ -162,15 +153,6 @@ public class GamePanel extends JPanel implements GameListener {
     @Override
     public void portalIsEntered() {
 
-
-
-//        JOptionPane.showMessageDialog(
-//                this,
-//                "Вы победили!",
-//                "Игра завершена",
-//                JOptionPane.INFORMATION_MESSAGE
-//        );
-
         JOptionPane optionPane = new JOptionPane(
                 "Вы победили!",
                 JOptionPane.INFORMATION_MESSAGE
@@ -178,12 +160,11 @@ public class GamePanel extends JPanel implements GameListener {
 
         JDialog dialog = optionPane.createDialog(this, "Игра завершена");
 
-// Задать координаты — например, по центру по ширине, но ближе к верху по высоте
-        Point location = getLocationOnScreen(); // позиция текущего окна
+        Point location = getLocationOnScreen();
         dialog.setLocation(location.x + getWidth() / 2 - dialog.getWidth() / 2, location.y + 100); // 100 px от верхнего края окна
 
         dialog.setVisible(true);
-        stopGameLoop(); // остановить таймер игры
+        stopGameLoop();
     }
 
     @Override

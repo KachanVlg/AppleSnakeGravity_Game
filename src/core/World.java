@@ -4,13 +4,9 @@ import utils.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static utils.MovementStrategyEnum.*;
 
 public class World {
 
@@ -21,39 +17,6 @@ public class World {
     private  static final Direction GRAVITY_DIR = Direction.DOWN;
     private static Level level;
     private List<ObjectOnField> singleGravityObjects = new ArrayList<>();
-    private Apple apple;
-    private List<Block> blocks = new ArrayList<>();
-    private Portal portal;
-    private List<Segment> segments = new ArrayList<>();
-    private Head head;
-    private List<Box> boxes = new ArrayList<>();
-
-
-    //-------------------------------------------------
-    public List<Block> getBlocks() {
-        return blocks;
-    }
-
-    public List<Box> getBoxes() {
-        return boxes;
-    }
-
-    public Portal getPortal() {
-        return portal;
-    }
-
-    public List<Segment> getSegments() {
-        return segments;
-    }
-
-    public Apple getApple() {
-        return apple;
-    }
-
-    public Head getHead() {
-        return head;
-    }
-    //-------------------------------------------------
 
     public int getWidth() {
         return WIDTH;
@@ -101,46 +64,41 @@ public class World {
         init();
     }
 
-    private void init() {
-        cellsInit();
+    public <T extends ObjectOnField> List<T> getObjectsOfType(Class<T> clazz) {
+        return field.stream()
+                .map(Cell::getObject)
+                .filter(Objects::nonNull)
+                .filter(clazz::isInstance)
+                .map(clazz::cast)
+                .collect(Collectors.toList());
+    }
 
-        //Создаем змею
+    private void initSnake() {
         List<Point> snakePoints = level.getSnakePoints();
         List<Cell> snakeCells = snakePoints.stream().map(this::getCellBy).collect(Collectors.toCollection(ArrayList::new));
         Direction snakeDirection = level.getSnakeDirection();
         snake = new Snake(snakeCells, this, snakeDirection);
+    }
 
-        head = snake.getHead();
-
-        segments = snake.getSegments().stream()
-                .filter(s -> s instanceof Segment)
-                .map(s -> (Segment) s)
-                .collect(Collectors.toList());
-
-        segments.remove(head);
-
-        //Размещаем блоки
+    private void initBlocks() {
         List<Point> blocksPoints = level.getBlocksPoints();
         List<Cell> blocksCells = blocksPoints.stream().map(this::getCellBy).collect(Collectors.toCollection(ArrayList::new));
         blocksCells.forEach(cell -> new Block(cell, this));
+    }
 
-        for (Cell cell : blocksCells) {
-            blocks.add((Block)cell.getObject());
-        }
-
-        //Размещаем яблоко
+    private void initApple() {
         Point applePoint = level.getApplePoint();
         Cell appleCell = getCellBy(applePoint);
-        apple = new Apple(appleCell, this);
+        new Apple(appleCell, this);
+    }
 
-
-
-        //Размещаем портал
+    private void initPortal() {
         Point portalPoint = level.getPortalPoint();
         Cell portalCell = getCellBy(portalPoint);
-        portal = new Portal(portalCell, this);
+        new Portal(portalCell, this);
+    }
 
-
+    private void initBoxes() {
         for (BoxDto boxDto : level.getBoxes()) {
             MyPoint myPoint = boxDto.getPoint();
             Point awtPoint = myPoint.toAwtPoint();
@@ -156,10 +114,17 @@ public class World {
                 case SUPPORT_BY -> strategy = new SupportedOnlyByBoxStrategy(this);
                 default -> throw new IllegalArgumentException("Неизвестная стратегия: " + strategyEnum);
             }
-
-            Box box = new Box(strategy, boxCell, this);
-            boxes.add(box);
+            new Box(strategy, boxCell, this);
         }
+    }
+
+    private void init() {
+        cellsInit();
+        initSnake();
+        initBlocks();
+        initApple();
+        initPortal();
+        initBoxes();
     }
 
     public World() {
