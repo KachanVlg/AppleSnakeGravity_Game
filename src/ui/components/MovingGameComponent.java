@@ -16,8 +16,8 @@ public abstract class MovingGameComponent extends GameComponent {
     protected double currentY;
     protected final double speed = 9.0;
 
-    public MovingGameComponent(ObjectOnField objectOnField) {
-        super(objectOnField);
+    public MovingGameComponent(ObjectOnField objectOnField, String imageSrc) {
+        super(objectOnField, imageSrc);
         updatePosition();
     }
 

@@ -6,17 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BlockView extends GameComponent {
-    private Image blockImage;
+    private static final String imageSrc = "src/ui/images/Block.png";
 
     public BlockView(Block block) {
-        super(block);
-        blockImage = new ImageIcon("src/ui/images/Block.png").getImage();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        if (blockImage != null) {
-            g.drawImage(blockImage, 0, 0, size, size, this);
-        }
+        super(block, imageSrc);
     }
 }

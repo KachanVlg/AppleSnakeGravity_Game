@@ -11,7 +11,8 @@ public abstract class GameComponent extends JComponent {
     protected final ObjectOnField objectOnField;
     protected Image image;
 
-    public GameComponent(ObjectOnField objectOnField) {
+    public GameComponent(ObjectOnField objectOnField, String imageSrc) {
+        image = new ImageIcon(imageSrc).getImage();
         this.objectOnField = objectOnField;
         setSize(size, size);
         setPreferredSize(new Dimension(size, size));
@@ -24,5 +25,10 @@ public abstract class GameComponent extends JComponent {
         setLocation(point.x * size, fieldSize - point.y * size - 1);
     }
 
-
+    @Override
+    protected void paintComponent(Graphics g) {
+        if (image != null) {
+            g.drawImage(image, 0, 0, size, size, this);
+        }
+    }
 }

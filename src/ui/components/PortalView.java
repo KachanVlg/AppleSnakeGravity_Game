@@ -6,17 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PortalView extends GameComponent { // модель
-    private Image portalImage;
+    private final static String imageSrc = "src/ui/images/Portal.png";
 
     public PortalView(Portal portal) {
-        super(portal);
-        portalImage = new ImageIcon("src/ui/images/Portal.png").getImage();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        if (portalImage != null) {
-            g.drawImage(portalImage, 0, 0, size, size, this);
-        }
+        super(portal, imageSrc);
     }
 }

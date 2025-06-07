@@ -11,7 +11,7 @@ public class BoxView extends MovingGameComponent {
     private Color color;
 
     public BoxView(MovableObstacle movableObstacle) {
-        super(movableObstacle);
+        super(movableObstacle, null);
         this.movableObstacle = movableObstacle;
         updateColor();
     }
@@ -32,10 +32,5 @@ public class BoxView extends MovingGameComponent {
         g.fillRect(0, 0, size, size);
         g.setColor(Color.BLACK); // Чёрная рамка
         g.drawRect(0, 0, size - 1, size - 1);
-    }
-
-    @Override
-    public boolean isAnimating() {
-        return animating;
     }
 }

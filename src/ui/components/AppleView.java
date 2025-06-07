@@ -7,17 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AppleView extends GameComponent {
-    private Image appleImage;
+    private static final String imageSrc = "src/ui/images/Apple.png";
 
     public AppleView(Apple apple) {
-        super(apple);
-        appleImage = new ImageIcon("src/ui/images/Apple.png").getImage();
+        super(apple, imageSrc);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        if (appleImage != null) {
-            g.drawImage(appleImage, 0, 0, size, size, this);
-        }
-    }
 }

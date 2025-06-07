@@ -8,8 +8,8 @@ public abstract class AbstractSegmentView extends MovingGameComponent{
 
     private final AbstractSegment abstractSegment;
 
-    protected AbstractSegmentView(AbstractSegment abstractSegment) {
-        super(abstractSegment);
+    protected AbstractSegmentView(AbstractSegment abstractSegment, String imageSrc) {
+        super(abstractSegment, imageSrc);
         this.abstractSegment = abstractSegment;
     }
 
