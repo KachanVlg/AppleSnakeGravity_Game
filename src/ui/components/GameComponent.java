@@ -12,6 +12,9 @@ public class GameComponent extends JComponent {
 
     public GameComponent(ObjectOnField objectOnField) {
         this.objectOnField = objectOnField;
+        setSize(size, size);
+        setPreferredSize(new Dimension(size, size));
+        setOpaque(false);
     }
 
     protected void updatePosition() {

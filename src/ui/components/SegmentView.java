@@ -10,9 +10,6 @@ public class SegmentView extends AbstractSegmentView {
 
     public SegmentView(Segment segment) {
         super(segment);
-        setSize(size, size);
-        setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
 
         Point point = segment.getCell().getPoint();
         currentX = point.x * size;

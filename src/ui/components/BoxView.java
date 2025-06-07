@@ -14,9 +14,6 @@ public class BoxView extends MovingGameComponent {
         super(movableObstacle);
         this.movableObstacle = movableObstacle;
         updateColor();
-        setSize(size, size);
-        setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
 
 
         Point point = movableObstacle.getCell().getPoint();

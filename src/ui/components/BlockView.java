@@ -10,9 +10,6 @@ public class BlockView extends GameComponent {
 
     public BlockView(Block block) {
         super(block);
-        setSize(size, size);
-        setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
         updatePosition();
         blockImage = new ImageIcon("src/ui/images/Block.png").getImage();
     }

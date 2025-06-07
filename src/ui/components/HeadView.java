@@ -15,9 +15,6 @@ public class HeadView extends AbstractSegmentView {
     public HeadView(Head head) {
         super(head);
         this.head = head;
-        setSize(size, size);
-        setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
 
         Point point = head.getCell().getPoint();
         currentX = point.x * size;

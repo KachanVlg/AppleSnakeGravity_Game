@@ -11,9 +11,6 @@ public class AppleView extends GameComponent {
 
     public AppleView(Apple apple) {
         super(apple);
-        setSize(size, size);
-        setPreferredSize(new Dimension(size, size));
-        setOpaque(false);
         updatePosition();
         appleImage = new ImageIcon("src/ui/images/Apple.png").getImage();
     }
