@@ -6,12 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SegmentView extends AbstractSegmentView {
-    private final Segment segment; // модель
     private Image segmentImage;
 
     public SegmentView(Segment segment) {
         super(segment);
-        this.segment = segment;
         setSize(size, size);
         setPreferredSize(new Dimension(size, size));
         setOpaque(false);
@@ -25,7 +23,6 @@ public class SegmentView extends AbstractSegmentView {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         if (segmentImage != null) {
             g.drawImage(segmentImage, 0, 0, size, size, this);
         }

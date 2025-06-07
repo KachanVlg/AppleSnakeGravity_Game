@@ -40,37 +40,6 @@ public abstract class AbstractSegmentView extends MovingGameComponent{
         animating = true;
     }
 
-    @Override
-    public void animate() {
-        if (!animating || targetPoint == null) return;
 
-        double dx = targetPoint.x - currentX;
-        double dy = targetPoint.y - currentY;
-
-        double dist = Math.hypot(dx, dy);
-
-        if (dist < speed) {
-            currentX = targetPoint.x;
-            currentY = targetPoint.y;
-            animating = false;
-        } else {
-            currentX += (dx / dist) * speed;
-            currentY += (dy / dist) * speed;
-            animating = true;
-        }
-
-        setLocation((int) currentX, (int) currentY);
-        repaint();
-
-        if(!animating && abstractSegment.isFell()) {
-            toDelete = true;
-        }
-
-    }
-
-    @Override
-    public boolean isAnimating() {
-        return animating; // по умолчанию ничего не анимируется
-    }
 
 }

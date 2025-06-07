@@ -19,24 +19,20 @@ public class HeadView extends AbstractSegmentView {
         setPreferredSize(new Dimension(size, size));
         setOpaque(false);
 
-        // Инициализируем текущие координаты из модели (начальная позиция)
         Point point = head.getCell().getPoint();
         currentX = point.x * size;
         currentY = fieldSize - point.y * size - 1;
         setLocation((int) currentX, (int) currentY);
 
 
-        // Загрузка изображений
         headUp = new ImageIcon("src/ui/images/snake/HeadUp.png").getImage();
         headDown = new ImageIcon("src/ui/images/snake/HeadDown.png").getImage();
         headLeft = new ImageIcon("src/ui/images/snake/HeadLeft.png").getImage();
         headRight = new ImageIcon("src/ui/images/snake/HeadRight.png").getImage();
-//        updatePosition();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
         Image imageToDraw = null;
 
         switch (head.getDir()) {

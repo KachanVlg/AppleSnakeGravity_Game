@@ -24,8 +24,26 @@ public abstract class MovingGameComponent extends GameComponent {
         return toDelete;
     }
 
-    public abstract void refresh();
-    public abstract boolean isAnimating();
+    public void refresh() {
+        int targetX;
+        int targetY;
+
+        if (objectOnField.isFell()) {
+            targetY = fieldSize - size - 1;
+            targetX = (int) currentX;
+        } else {
+            Point newPoint = objectOnField.getCell().getPoint();
+            targetX = newPoint.x * size;
+            targetY = fieldSize - newPoint.y * size - 1;
+        }
+
+        if ((int) currentX == targetX && (int) currentY == targetY) {
+            return;
+        }
+
+        targetPoint = new Point(targetX, targetY);
+        animating = true;
+    }
 
     public void animate() {
         if (!animating || targetPoint == null) return;
@@ -52,6 +70,9 @@ public abstract class MovingGameComponent extends GameComponent {
         if(!animating && objectOnField.isFell()) {
             toDelete = true;
         }
+    }
 
+    public boolean isAnimating() {
+        return animating;
     }
 }

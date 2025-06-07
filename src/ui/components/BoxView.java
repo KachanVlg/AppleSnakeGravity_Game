@@ -1,59 +1,38 @@
 package ui.components;
 
 import core.Box;
+import core.MovableObstacle;
 import ui.util.StrategyUIMapper;
 
 import java.awt.*;
 
 public class BoxView extends MovingGameComponent {
-    private final Box box;
+    private final MovableObstacle movableObstacle;
     private Color color;
 
-    public Box getBox() {
-        return box;
-    }
-
-    public BoxView(Box box) {
-        super(box);
-        this.box = box;
+    public BoxView(MovableObstacle movableObstacle) {
+        super(movableObstacle);
+        this.movableObstacle = movableObstacle;
         updateColor();
         setSize(size, size);
         setPreferredSize(new Dimension(size, size));
         setOpaque(false);
 
 
-        Point point = box.getCell().getPoint();
+        Point point = movableObstacle.getCell().getPoint();
         currentX = point.x * size;
         currentY = fieldSize - point.y * size - 1;
         setLocation((int) currentX, (int) currentY);
     }
 
     private void updateColor() {
-        this.color = StrategyUIMapper.getColorForStrategy(box.getMovementStrategy());
+        this.color = StrategyUIMapper.getColorForStrategy(movableObstacle.getMovementStrategy());
     }
 
     @Override
     public void refresh() {
         updateColor();
-
-        int targetX;
-        int targetY;
-
-        if(box.isFell()) {
-            targetY = fieldSize - size - 1;
-            targetX = (int) currentX;
-        } else {
-            Point newPoint = box.getCell().getPoint();
-            targetX = newPoint.x * size;
-            targetY = fieldSize - newPoint.y * size - 1;
-        }
-
-        if ((int) currentX == targetX && (int) currentY == targetY) {
-            return;
-        }
-
-        targetPoint = new Point(targetX, targetY);
-        animating = true;
+        super.refresh();
     }
 
     @Override
