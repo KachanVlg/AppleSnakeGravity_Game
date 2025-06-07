@@ -15,6 +15,7 @@ public class GameComponent extends JComponent {
         setSize(size, size);
         setPreferredSize(new Dimension(size, size));
         setOpaque(false);
+        updatePosition();
     }
 
     protected void updatePosition() {

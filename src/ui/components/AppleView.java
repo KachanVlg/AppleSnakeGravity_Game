@@ -11,7 +11,6 @@ public class AppleView extends GameComponent {
 
     public AppleView(Apple apple) {
         super(apple);
-        updatePosition();
         appleImage = new ImageIcon("src/ui/images/Apple.png").getImage();
     }
 

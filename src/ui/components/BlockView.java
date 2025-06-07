@@ -10,7 +10,6 @@ public class BlockView extends GameComponent {
 
     public BlockView(Block block) {
         super(block);
-        updatePosition();
         blockImage = new ImageIcon("src/ui/images/Block.png").getImage();
     }
 

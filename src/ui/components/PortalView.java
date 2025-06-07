@@ -10,7 +10,6 @@ public class PortalView extends GameComponent { // модель
 
     public PortalView(Portal portal) {
         super(portal);
-        updatePosition();
         portalImage = new ImageIcon("src/ui/images/Portal.png").getImage();
     }
 
