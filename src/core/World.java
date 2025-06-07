@@ -1,7 +1,6 @@
 package core;
 
-import utils.Direction;
-import utils.Level;
+import utils.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,6 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static utils.MovementStrategyEnum.*;
 
 public class World {
 
@@ -139,23 +140,26 @@ public class World {
         Cell portalCell = getCellBy(portalPoint);
         portal = new Portal(portalCell, this);
 
-        Point boxPoint = new Point(7,6);
-        Cell boxCell = getCellBy(boxPoint);
-        Box box = new Box(new BasicMovementStrategy(this), boxCell, this);
 
-        boxes.add(box);
+        for (BoxDto boxDto : level.getBoxes()) {
+            MyPoint myPoint = boxDto.getPoint();
+            Point awtPoint = myPoint.toAwtPoint();
+            Cell boxCell = getCellBy(awtPoint);
 
-        boxPoint = new Point(11,7);
-        boxCell = getCellBy(boxPoint);
-        box = new Box(new SupportedOnlyByBoxStrategy(this), boxCell, this);
+            MovementStrategyEnum strategyEnum = boxDto.getMovementStrategy();
+            MovementStrategy strategy;
 
-        boxes.add(box);
+            // Выбор стратегии по enum'у
+            switch (strategyEnum) {
+                case BASIC -> strategy = new BasicMovementStrategy(this);
+                case TIME -> strategy = new TimeLimitedMovementStrategy(this);
+                case SUPPORT_BY -> strategy = new SupportedOnlyByBoxStrategy(this);
+                default -> throw new IllegalArgumentException("Неизвестная стратегия: " + strategyEnum);
+            }
 
-        boxPoint = new Point(11,6);
-        boxCell = getCellBy(boxPoint);
-        box = new Box(new BasicMovementStrategy(this), boxCell, this);
-
-        boxes.add(box);
+            Box box = new Box(strategy, boxCell, this);
+            boxes.add(box);
+        }
     }
 
     public World() {

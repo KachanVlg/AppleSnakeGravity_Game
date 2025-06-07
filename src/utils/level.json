@@ -27,5 +27,19 @@
 
   ],
   "apple": {"x": 4, "y": 8},
-  "portal": {"x": 9, "y": 10}
+  "portal": {"x": 9, "y": 10},
+  "boxes": [
+    {
+      "point": { "x": 7, "y": 6},
+      "movementStrategy": "basic"
+    },
+    {
+      "point": { "x": 11, "y": 7},
+      "movementStrategy": "support_by"
+    },
+    {
+      "point": { "x": 11, "y": 6 },
+      "movementStrategy": "basic"
+    }
+  ]
 }

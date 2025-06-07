@@ -12,9 +12,13 @@ public record Level(
         Direction direction,
         List<MyPoint> blocks,
         MyPoint apple,
-        MyPoint portal
+        MyPoint portal,
+        List<BoxDto> boxes // заменили BoxDto -> List<BoxDto>
 ) {
 
+    public List<BoxDto> getBoxes() {
+        return boxes;
+    }
 
     // Метод для загрузки уровня из JSON файла
     public static Level loadFromJson(String filePath) throws IOException {
