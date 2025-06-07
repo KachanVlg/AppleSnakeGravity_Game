@@ -5,10 +5,11 @@ import core.ObjectOnField;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameComponent extends JComponent {
+public abstract class GameComponent extends JComponent {
     protected final int size = 40;
     protected final int fieldSize = 800;
     protected final ObjectOnField objectOnField;
+    protected Image image;
 
     public GameComponent(ObjectOnField objectOnField) {
         this.objectOnField = objectOnField;
