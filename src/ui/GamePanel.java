@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements GameListener {
         gameTimer.start();
     }
 
-    public void addMovingComponent(MovingGameComponent comp) {
+    private void addMovingComponent(MovingGameComponent comp) {
         movingComponents.add(comp);
         add(comp);
     }
@@ -71,13 +71,13 @@ public class GamePanel extends JPanel implements GameListener {
         if (dir != null) gameModel.moveSnakeOn(dir);
     }
 
-    public void addStaticComponent(JComponent comp) {
+    private void addStaticComponent(JComponent comp) {
         add(comp);
     }
 
 
 
-    public void initComponents() {
+    private void initComponents() {
 
         List<Block> blocks = gameModel.getWorld().getObjectsOfType(Block.class);
         for (Block block : blocks) {
