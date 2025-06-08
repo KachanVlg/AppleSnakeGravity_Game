@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements GameListener {
     private final GameModel gameModel;
 
     private final List<MovingGameComponent> movingComponents = new ArrayList<>();
-    private final List<JComponent> staticComponents = new ArrayList<>();
     private boolean isAnimating = false;
     private final static int CELL_SIZE = 40;
     private final int fieldSize = 800;
@@ -55,7 +54,7 @@ public class GamePanel extends JPanel implements GameListener {
         setPreferredSize(new Dimension(800, 800));
 
 
-        gameTimer = new Timer(40, e -> gameLoop());
+        gameTimer = new Timer(35, e -> gameLoop());
         gameModel.start();
         initComponents();
         gameTimer.start();
@@ -73,7 +72,6 @@ public class GamePanel extends JPanel implements GameListener {
     }
 
     public void addStaticComponent(JComponent comp) {
-        staticComponents.add(comp);
         add(comp);
     }
 
@@ -128,7 +126,6 @@ public class GamePanel extends JPanel implements GameListener {
 
     private void gameLoop() {
         boolean anyAnimating = false;
-
         for (MovingGameComponent comp : movingComponents) {
             comp.animate();
             comp.refresh();
@@ -178,7 +175,6 @@ public class GamePanel extends JPanel implements GameListener {
 
     @Override
     public void fell() {
-        gameLoop();
         JOptionPane.showMessageDialog(
                 this,
                 "Вы проиграли!",
@@ -190,30 +186,17 @@ public class GamePanel extends JPanel implements GameListener {
     @Override
     public void movedOn() {
         isAnimating = true;
-        gameLoop();
     }
 
     @Override
-    public void eatApple(Segment segment, Apple apple) {
-
-        GameComponent appleComponent = componentMap.get(apple);
-        componentMap.remove(apple);
-        remove(appleComponent);
-        staticComponents.remove(appleComponent);
-
-
+    public void eatApple(Segment segment) {
         SegmentView segmentView = new SegmentView(segment);
         addMovingComponent(segmentView);
-        segmentView.refresh();
-
-        revalidate();
-        repaint();
     }
 
     @Override
     public void gravityApplied() {
         isAnimating = true;
-        gameLoop();
     }
 }
 

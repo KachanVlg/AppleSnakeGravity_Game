@@ -54,7 +54,7 @@ public class WorldTest {
             }
 
             @Override
-            public void eatApple(Segment segment, Apple apple) {
+            public void eatApple(Segment segment) {
 
             }
 

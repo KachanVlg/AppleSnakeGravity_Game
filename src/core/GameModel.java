@@ -73,8 +73,8 @@ public class GameModel implements SnakeListener {
     }
 
     @Override
-    public void eatApple(Segment segment, Apple apple) {
-        fireEatApple(segment, apple);
+    public void eatApple(Segment segment) {
+        fireEatApple(segment);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class GameModel implements SnakeListener {
         listeners.add(listener);
     }
 
-    private void fireEatApple(Segment segment, Apple apple) {
-        listeners.stream().forEach(listeners -> listeners.eatApple(segment, apple));
+    private void fireEatApple(Segment segment) {
+        listeners.stream().forEach(listeners -> listeners.eatApple(segment));
     }
 
     private void fireGravityApplied() {

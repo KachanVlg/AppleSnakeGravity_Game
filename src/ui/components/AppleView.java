@@ -13,4 +13,14 @@ public class AppleView extends GameComponent {
         super(apple, imageSrc);
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        if(objectOnField.getCell() == null) {
+            setVisible(false);
+        }
+        super.paintComponent(g);
+    }
+
+
+
 }

@@ -8,6 +8,6 @@ public interface GameListener {
     void portalIsEntered();
     void fell();
     void movedOn();
-    void eatApple(Segment segment, Apple apple);
+    void eatApple(Segment segment);
     void gravityApplied();
 }

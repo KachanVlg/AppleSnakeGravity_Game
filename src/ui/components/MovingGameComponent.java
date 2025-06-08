@@ -68,7 +68,7 @@ public abstract class MovingGameComponent extends GameComponent {
         repaint();
 
         if(!animating && objectOnField.isFell()) {
-            setVisible(false);
+            toDelete = true;
         }
     }
 
