@@ -82,14 +82,12 @@ public class GamePanel extends JPanel implements GameListener {
         List<Block> blocks = gameModel.getWorld().getObjectsOfType(Block.class);
         for (Block block : blocks) {
             BlockView blockView = new BlockView(block);
-            componentMap.put(block, blockView);
             addStaticComponent(blockView);
             blockView.repaint();
         }
 
         Portal portal = gameModel.getWorld().getObjectsOfType(Portal.class).getFirst();
         PortalView portalView = new PortalView(portal);
-        componentMap.put(portal, portalView);
         addStaticComponent(portalView);
         portalView.repaint();
 

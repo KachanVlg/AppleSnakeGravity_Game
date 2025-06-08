@@ -32,7 +32,7 @@ public class World {
 
     static {
         try {
-            level = Level.loadFromJson("src/utils/level.json");
+            level = Level.loadFromJson("src/utils/level2.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
