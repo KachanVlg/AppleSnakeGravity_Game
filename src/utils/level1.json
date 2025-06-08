@@ -23,7 +23,11 @@
     {"x": 10, "y": 5},
     {"x": 11, "y": 5},
     {"x": 12, "y": 5},
-    {"x": 13, "y": 5}
+    {"x": 13, "y": 5},
+    {"x": 14, "y": 5},
+    {"x": 15, "y": 5},
+    {"x": 16, "y": 5},
+    {"x": 17, "y": 5}
 
   ],
   "apple": {"x": 4, "y": 8},
@@ -34,11 +38,19 @@
       "movementStrategy": "basic"
     },
     {
-      "point": { "x": 11, "y": 7},
+      "point": { "x": 14, "y": 7},
       "movementStrategy": "support_by"
     },
     {
+      "point": { "x": 14, "y": 6 },
+      "movementStrategy": "basic"
+    },
+    {
       "point": { "x": 11, "y": 6 },
+      "movementStrategy": "only_under"
+    },
+    {
+      "point": { "x": 11, "y": 7 },
       "movementStrategy": "basic"
     }
   ]

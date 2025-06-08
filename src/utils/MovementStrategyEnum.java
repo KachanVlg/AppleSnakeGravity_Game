@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public enum MovementStrategyEnum {
     BASIC,
     TIME,
-    SUPPORT_BY;
+    SUPPORT_BY,
+    ONLY_UNDER;
 
     @JsonCreator
     public static MovementStrategyEnum fromString(String value) {

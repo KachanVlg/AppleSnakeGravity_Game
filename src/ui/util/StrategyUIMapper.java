@@ -1,8 +1,5 @@
 package ui.util;// 1. Создаем enum или класс, хранящий UI-цвета для стратегий
-import core.BasicMovementStrategy;
-import core.MovementStrategy;
-import core.SupportedOnlyByBoxStrategy;
-import core.TimeLimitedMovementStrategy;
+import core.*;
 
 import java.awt.Color;
 import java.util.HashMap;
@@ -13,9 +10,9 @@ public class StrategyUIMapper {
 
     static {
         strategyColorMap.put(BasicMovementStrategy.class, Color.ORANGE);
-        strategyColorMap.put(TimeLimitedMovementStrategy.class, Color.RED);
+        strategyColorMap.put(TimeLimitedMovementStrategy.class, Color.BLUE);
         strategyColorMap.put(SupportedOnlyByBoxStrategy.class, Color.RED);
-        // добавляй сюда другие стратегии и их цвета
+        strategyColorMap.put(OnlyUnderBoxMovementStrategy.class, Color.PINK);
     }
 
     public static Color getColorForStrategy(MovementStrategy strategy) {

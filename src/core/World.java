@@ -6,6 +6,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 import java.util.stream.Collectors;
 
 public class World {
@@ -32,7 +33,7 @@ public class World {
 
     static {
         try {
-            level = Level.loadFromJson("src/utils/level2.json");
+            level = Level.loadFromJson("src/utils/level1.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -117,6 +118,7 @@ public class World {
                 case BASIC -> strategy = new BasicMovementStrategy(this);
                 case TIME -> strategy = new TimeLimitedMovementStrategy(this);
                 case SUPPORT_BY -> strategy = new SupportedOnlyByBoxStrategy(this);
+                case ONLY_UNDER -> strategy = new OnlyUnderBoxMovementStrategy(this);
                 default -> throw new IllegalArgumentException("Неизвестная стратегия: " + strategyEnum);
             }
             new Box(strategy, boxCell, this);
